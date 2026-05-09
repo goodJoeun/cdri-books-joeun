@@ -11,7 +11,7 @@ export const thumbnailStyles = cva('object-cover rounded', {
   variants: {
     size: {
       compact: 'w-12 h-thumb-h',
-      expanded: 'w-44 h-60 shadow-sm',
+      expanded: 'w-full h-full shadow-sm',
     },
   },
 });
@@ -55,7 +55,12 @@ export function ThumbnailWithWishlist({
   size: CardSize;
 }) {
   return (
-    <div className="relative shrink-0">
+    <div
+      className={cn(
+        'relative shrink-0',
+        size === 'expanded' && 'w-44 overflow-hidden',
+      )}
+    >
       {book.thumbnail ? (
         <img
           src={book.thumbnail}
