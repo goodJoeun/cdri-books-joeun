@@ -7,13 +7,14 @@ import { useSearchHistory } from '@/hooks/useSearchHistory'
 import Button from '@/components/Button'
 import BookList from '@/components/BookList'
 import PaginationButton from '@/components/PaginationButton'
+import { strings } from '@/constants/strings'
 
 type DetailTarget = 'title' | 'person' | 'publisher'
 
 const TARGET_OPTIONS: { value: DetailTarget; label: string }[] = [
-  { value: 'title', label: '제목' },
-  { value: 'person', label: '저자명' },
-  { value: 'publisher', label: '출판사' },
+  { value: 'title', label: strings.search.targetOptions.title },
+  { value: 'person', label: strings.search.targetOptions.person },
+  { value: 'publisher', label: strings.search.targetOptions.publisher },
 ]
 
 export default function Home() {
@@ -96,7 +97,7 @@ export default function Home() {
 
   return (
     <main className="w-full max-w-[960px] mx-auto py-10 px-4 sm:px-6 lg:px-0">
-      <h1 className="text-xl font-bold mb-6">도서 검색</h1>
+      <h1 className="text-xl font-bold mb-6">{strings.search.pageTitle}</h1>
 
       <div className="flex items-center gap-2 mb-3 w-full max-w-[568px]">
         <div className="flex-1 relative" ref={containerRef}>
@@ -110,7 +111,7 @@ export default function Home() {
               onChange={e => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
               onFocus={() => setShowHistory(true)}
-              placeholder="검색어를 입력하세요"
+              placeholder={strings.search.placeholder}
               className="flex-1 outline-none text-gray-800 text-base font-medium placeholder:text-text-subTitle placeholder:text-base placeholder:font-medium"
             />
           </div>
@@ -118,13 +119,13 @@ export default function Home() {
           {shouldShowHistory && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow-md z-10">
               <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100">
-                <span className="text-xs text-gray-500">최근 검색어</span>
+                <span className="text-xs text-gray-500">{strings.search.recentHistory}</span>
                 <button
                   onMouseDown={e => e.preventDefault()}
                   onClick={clearHistory}
                   className="text-xs text-gray-400 hover:text-gray-600"
                 >
-                  전체 삭제
+                  {strings.search.clearAll}
                 </button>
               </div>
               {history.map(term => (
@@ -158,7 +159,7 @@ export default function Home() {
             className="text-text-subTitle whitespace-nowrap"
             onClick={handleToggleDetailPopup}
           >
-            상세검색
+            {strings.search.detailSearch}
           </Button>
 
           {showDetailPopup && (
@@ -186,13 +187,13 @@ export default function Home() {
                   value={detailQuery}
                   onChange={e => setDetailQuery(e.target.value)}
                   onKeyDown={handleDetailKeyDown}
-                  placeholder="검색어 입력"
+                  placeholder={strings.search.detailPlaceholder}
                   autoFocus
                   className="flex-1 text-sm outline-none text-gray-800 placeholder-gray-400 bg-transparent"
                 />
               </div>
               <Button variant="primary" className="w-full" onClick={handleDetailSearch}>
-                검색하기
+                {strings.search.searchButton}
               </Button>
             </div>
           )}
@@ -200,16 +201,16 @@ export default function Home() {
       </div>
 
       <p className="text-base font-medium text-text-primary mb-6">
-        도서 검색 결과&nbsp;&nbsp;총{' '}
-        <span className="font-medium text-palette-primary">{searchQuery ? totalCount : 0}</span>건
+        {strings.search.resultLabel}&nbsp;&nbsp;총{' '}
+        <span className="font-medium text-palette-primary">{searchQuery ? totalCount : 0}</span>{strings.search.resultUnit}
       </p>
 
       {isFetching && (
-        <p className="text-sm text-gray-400 text-center py-10">검색 중...</p>
+        <p className="text-sm text-gray-400 text-center py-10">{strings.search.loading}</p>
       )}
 
       {isError && (
-        <p className="text-sm text-red-500 text-center py-10">검색 중 오류가 발생했습니다.</p>
+        <p className="text-sm text-red-500 text-center py-10">{strings.search.error}</p>
       )}
 
       {!isFetching && !isError && books.length === 0 && (
@@ -223,13 +224,13 @@ export default function Home() {
       {!isFetching && books.length > 0 && (
         <div className="flex items-center justify-center gap-3 mt-8">
           <PaginationButton onClick={() => setPage(p => p - 1)} disabled={page === 1}>
-            이전
+            {strings.pagination.prev}
           </PaginationButton>
           <span className="text-sm text-gray-600">
             {page} / {totalPages}
           </span>
           <PaginationButton onClick={() => setPage(p => p + 1)} disabled={isEnd || page >= totalPages}>
-            다음
+            {strings.pagination.next}
           </PaginationButton>
         </div>
       )}

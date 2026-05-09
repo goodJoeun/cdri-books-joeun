@@ -6,6 +6,7 @@ import { Book } from '@/types/book'
 import Button from './Button'
 import { useWishlist } from '@/hooks/useWishlist'
 import { cn } from '@/lib/cn'
+import { strings } from '@/constants/strings'
 
 // className 정리
 const thumbnailStyles = cva('object-cover rounded', {
@@ -69,7 +70,7 @@ function ThumbnailWithWishlist({
       <button
         onClick={onToggle}
         className={wishlistButtonStyles({ size })}
-        aria-label={wishlisted ? '찜 해제' : '찜하기'}
+        aria-label={wishlisted ? strings.book.wishRemove : strings.book.wishAdd}
       >
         <img
           src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
@@ -162,7 +163,7 @@ export default function BookCard({ book }: { book: Book }) {
 
           <div className="flex items-center gap-2">
             <Button variant="primary" onClick={openPurchase}>
-              구매하기
+              {strings.book.buy}
             </Button>
 
             <Button
@@ -170,7 +171,7 @@ export default function BookCard({ book }: { book: Book }) {
               onClick={() => setExpanded(true)}
               className="flex items-center gap-1 justify-center"
             >
-              상세보기
+              {strings.book.detail}
               <ChevronIcon />
             </Button>
           </div>
@@ -197,7 +198,7 @@ export default function BookCard({ book }: { book: Book }) {
 
               {book.contents && (
                 <div>
-                  <p className="text-sm font-semibold text-gray-800 mb-4">책 소개</p>
+                  <p className="text-sm font-semibold text-gray-800 mb-4">{strings.book.intro}</p>
                   <p className="text-[12px] text-gray-600 leading-relaxed">{book.contents}</p>
                 </div>
               )}
@@ -209,19 +210,21 @@ export default function BookCard({ book }: { book: Book }) {
                 onClick={() => setExpanded(false)}
                 className="flex items-center gap-1 justify-center"
               >
-                상세보기
+                {strings.book.detail}
                 <ChevronIcon rotated />
               </Button>
 
               <div className="flex flex-col items-end">
                 {hasDiscount && (
                   <p className="text-sm text-gray-400 line-through">
-                    원가 {book.price.toLocaleString()}원
+                    {strings.book.originalPrice(book.price.toLocaleString())}
                   </p>
                 )}
                 {displayPrice > 0 && (
                   <p className="text-lg font-bold text-gray-900">
-                    {hasDiscount ? '할인가 ' : ''}{displayPrice.toLocaleString()}원
+                    {hasDiscount
+                      ? strings.book.discountPrice(displayPrice.toLocaleString())
+                      : strings.book.regularPrice(displayPrice.toLocaleString())}
                   </p>
                 )}
                 <Button
@@ -229,7 +232,7 @@ export default function BookCard({ book }: { book: Book }) {
                   className="mt-4 w-[240px] h-[48px]"
                   onClick={openPurchase}
                 >
-                  구매하기
+                  {strings.book.buy}
                 </Button>
               </div>
             </div>
