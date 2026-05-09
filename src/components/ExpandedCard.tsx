@@ -1,0 +1,86 @@
+'use client'
+
+import { Book } from '@/types/book'
+import Button from './Button'
+import { strings } from '@/constants/strings'
+import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts'
+
+export default function ExpandedCard({
+  book,
+  wishlisted,
+  displayPrice,
+  hasDiscount,
+  onToggleWishlist,
+  onCollapse,
+  onPurchase,
+}: {
+  book: Book
+  wishlisted: boolean
+  displayPrice: number
+  hasDiscount: boolean
+  onToggleWishlist: () => void
+  onCollapse: () => void
+  onPurchase: () => void
+}) {
+  return (
+    <div className="bg-white px-12 py-6">
+      <div className="flex items-start gap-[45px]">
+        <ThumbnailWithWishlist
+          book={book}
+          wishlisted={wishlisted}
+          size="expanded"
+          onToggle={onToggleWishlist}
+        />
+
+        <div className="flex-1 flex flex-col gap-6 min-w-0 p-2 max-w-[360px]">
+          <div>
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <p className="text-xl font-bold text-gray-900">{book.title}</p>
+              <p className="text-sm text-gray-500">{book.authors.join(', ')}</p>
+            </div>
+          </div>
+
+          {book.contents && (
+            <div>
+              <p className="text-sm font-semibold text-gray-800 mb-4">{strings.book.intro}</p>
+              <p className="text-[12px] text-gray-600 leading-relaxed">{book.contents}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col items-end shrink-0 self-stretch justify-between ml-auto">
+          <Button
+            variant="ghost"
+            onClick={onCollapse}
+            className="flex items-center gap-1 justify-center"
+          >
+            {strings.book.detail}
+            <ChevronIcon rotated />
+          </Button>
+
+          <div className="flex flex-col items-end">
+            {hasDiscount && (
+              <p className="text-sm text-gray-400 line-through">
+                {strings.book.originalPrice(book.price.toLocaleString())}
+              </p>
+            )}
+            {displayPrice > 0 && (
+              <p className="text-lg font-bold text-gray-900">
+                {hasDiscount
+                  ? strings.book.discountPrice(displayPrice.toLocaleString())
+                  : strings.book.regularPrice(displayPrice.toLocaleString())}
+              </p>
+            )}
+            <Button
+              variant="primary"
+              className="mt-4 w-[240px] h-[48px]"
+              onClick={onPurchase}
+            >
+              {strings.book.buy}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
