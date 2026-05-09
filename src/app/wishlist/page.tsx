@@ -21,7 +21,7 @@ export default function WishlistPage() {
   );
 
   return (
-    <main className="w-[960px] mx-auto py-10">
+    <main className="w-full max-w-[960px] mx-auto py-10 px-4 sm:px-6 lg:px-0">
       <h1 className="text-xl font-bold mb-2">{strings.wishlist.pageTitle}</h1>
       <p className="text-sm text-gray-600 mb-6">
         {strings.wishlist.countPrefix}&nbsp;&nbsp;총{' '}

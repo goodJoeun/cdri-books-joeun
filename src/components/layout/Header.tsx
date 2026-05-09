@@ -28,11 +28,11 @@ export default function Header() {
 
   return (
     <header className="bg-white">
-      <div className="relative w-full h-header px-4 sm:px-6 lg:px-10 flex items-center">
-        <span className="font-bold text-base tracking-tight text-text-primary">
+      <div className="relative w-full h-header px-4 sm:px-6 lg:px-10 flex items-center justify-between md:justify-start gap-4">
+        <span className="font-bold text-base tracking-tight text-text-primary shrink-0">
           {strings.brand}
         </span>
-        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-15">
+        <nav className="flex items-center gap-4 sm:gap-8 md:gap-15 md:absolute md:left-1/2 md:-translate-x-1/2">
           {NAV_ITEMS.map(({ label, href }) => {
             const active = pathname === href.split('?')[0];
             return (
@@ -40,7 +40,7 @@ export default function Header() {
                 key={label}
                 href={href}
                 className={cn(
-                  'text-xl font-medium pb-1 text-text-primary transition-colors',
+                  'text-base sm:text-lg md:text-xl font-medium pb-1 text-text-primary transition-colors',
                   active && 'border-b border-palette-primary',
                 )}
               >

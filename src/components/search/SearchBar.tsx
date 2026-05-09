@@ -213,7 +213,7 @@ export default function SearchBar({
             className={cn(
               'absolute top-full right-0 mt-2 z-20',
               'bg-white border border-gray-200 rounded-lg shadow-lg',
-              'p-4 w-80',
+              'p-4 w-[calc(100vw-2rem)] max-w-80 sm:w-80',
             )}
           >
             <div className="flex justify-end mb-4">

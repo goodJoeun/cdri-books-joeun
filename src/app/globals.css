@@ -28,7 +28,7 @@
 
 /* Compound layout utility shared by compact card row & skeleton */
 @utility card-row {
-  @apply flex items-center gap-card-gap px-12 py-2 h-card-row;
+  @apply flex items-center gap-3 sm:gap-6 lg:gap-card-gap px-4 sm:px-6 lg:px-12 py-2 h-card-row;
 }
 
 @keyframes shimmer {

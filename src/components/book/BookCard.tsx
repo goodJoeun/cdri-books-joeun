@@ -38,31 +38,46 @@ export default function BookCard({ book }: { book: Book }) {
           />
 
           <div className="flex-1 min-w-0">
-            <div className="flex items-baseline gap-2 min-w-0">
+            <div
+              className={cn(
+                'flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2 min-w-0',
+              )}
+            >
               <TruncatedTooltip
                 text={book.title}
-                className="text-lg font-bold text-text-primary"
+                className="text-base sm:text-lg font-bold text-text-primary"
               />
-              <span className="text-sm text-text-secondary shrink-0">
+              <span className="text-xs sm:text-sm text-text-secondary truncate sm:shrink-0">
                 {book.authors.join(', ')}
               </span>
               {displayPrice > 0 && (
-                <span className={cn('text-lg font-medium text-text-primary', 'shrink-0 w-20 text-right ml-auto')}>
+                <span
+                  className={cn(
+                    'text-sm sm:text-lg font-medium text-text-primary',
+                    'shrink-0 sm:w-20 sm:text-right sm:ml-auto',
+                  )}
+                >
                   {strings.book.regularPrice(displayPrice.toLocaleString())}
                 </span>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button variant="primary" onClick={openPurchase}>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 shrink-0">
+            <Button
+              variant="primary"
+              size="sm"
+              className="sm:w-[115px] sm:h-[48px] sm:text-sm"
+              onClick={openPurchase}
+            >
               {strings.book.buy}
             </Button>
 
             <Button
               variant="ghost"
+              size="sm"
               onClick={() => setExpanded(true)}
-              className="flex items-center gap-1 justify-center"
+              className="sm:w-[115px] sm:h-[48px] flex items-center gap-1 justify-center"
             >
               {strings.book.detail}
               <ChevronIcon />
