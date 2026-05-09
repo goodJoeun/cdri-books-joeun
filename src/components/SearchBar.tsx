@@ -123,7 +123,14 @@ export default function SearchBar({
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              if (e.target.value) {
+                setDetailQuery('');
+                setDetailTarget('title');
+                setShowDetailPopup(false);
+              }
+            }}
             onKeyDown={handleKeyDown}
             onFocus={() => setShowHistory(true)}
             placeholder={strings.search.placeholder}
