@@ -1,43 +1,58 @@
-'use client'
+'use client';
 
-import { useEffect, useRef } from 'react'
-import Image from 'next/image'
-import BookList from './BookList'
-import BookCardSkeleton from './BookCardSkeleton'
-import { useInfiniteBookSearch } from '@/hooks/useInfiniteBookSearch'
-import { strings } from '@/constants/strings'
+import { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import BookList from './BookList';
+import BookCardSkeleton from './BookCardSkeleton';
+import { useInfiniteBookSearch } from '@/hooks/useInfiniteBookSearch';
+import { strings } from '@/constants/strings';
 
 interface InfiniteBookResultsProps {
-  query: string
-  target?: string
+  query: string;
+  target?: string;
 }
 
-export default function InfiniteBookResults({ query, target }: InfiniteBookResultsProps) {
-  const sentinelRef = useRef<HTMLDivElement>(null)
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError } =
-    useInfiniteBookSearch(query, target)
+export default function InfiniteBookResults({
+  query,
+  target,
+}: InfiniteBookResultsProps) {
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+    isError,
+  } = useInfiniteBookSearch(query, target);
 
   useEffect(() => {
-    const el = sentinelRef.current
-    if (!el) return
+    const el = sentinelRef.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage()
+          fetchNextPage();
         }
       },
       { rootMargin: '200px' },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage])
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (!query.trim()) {
     return (
       <div className="flex flex-col items-center py-16 gap-4">
-        <Image src="/icon/no_data.svg" alt="검색 결과 없음" width={160} height={121} priority />
+        <Image
+          src="/icon/no_data.svg"
+          alt="검색 결과 없음"
+          width={160}
+          height={121}
+          priority
+        />
       </div>
-    )
+    );
   }
 
   if (isPending) {
@@ -52,22 +67,32 @@ export default function InfiniteBookResults({ query, target }: InfiniteBookResul
           ))}
         </ul>
       </>
-    )
+    );
   }
 
   if (isError) {
-    return <p className="text-sm text-red-500 text-center py-10">{strings.search.error}</p>
+    return (
+      <p className="text-sm text-red-500 text-center py-10">
+        {strings.search.error}
+      </p>
+    );
   }
 
-  const books = data.pages.flatMap(p => p.documents)
-  const totalCount = data.pages[0].meta.total_count
+  const books = data.pages.flatMap((p) => p.documents);
+  const totalCount = data.pages[0].meta.total_count;
 
   if (books.length === 0) {
     return (
       <div className="flex flex-col items-center py-16 gap-4">
-        <Image src="/icon/no_data.svg" alt="검색 결과 없음" width={160} height={121} priority />
+        <Image
+          src="/icon/no_data.svg"
+          alt="검색 결과 없음"
+          width={160}
+          height={121}
+          priority
+        />
       </div>
-    )
+    );
   }
 
   return (
@@ -85,5 +110,5 @@ export default function InfiniteBookResults({ query, target }: InfiniteBookResul
         </div>
       )}
     </>
-  )
+  );
 }

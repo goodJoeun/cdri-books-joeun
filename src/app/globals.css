@@ -1,29 +1,29 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Brand */
-  --color-palette-primary: #4880EE;
-  --color-palette-red: #E84118;
-  --color-palette-gray: #DADADA;
+  --color-palette-primary: #4880ee;
+  --color-palette-red: #e84118;
+  --color-palette-gray: #dadada;
 
   /* Text */
-  --color-text-primary: #353C49;
-  --color-text-secondary: #6D7582;
-  --color-text-subTitle: #8D94A0;
+  --color-text-primary: #353c49;
+  --color-text-secondary: #6d7582;
+  --color-text-subTitle: #8d94a0;
 
   /* Border */
-  --color-border-card: #D2D6DA;
+  --color-border-card: #d2d6da;
 
   /* Layout — book card row */
-  --spacing-card-row: 6.25rem;     /* 100px */
-  --spacing-card-gap: 2.8125rem;   /* 45px */
-  --spacing-thumb-h: 4.25rem;      /* 68px - compact thumbnail height */
+  --spacing-card-row: 6.25rem; /* 100px */
+  --spacing-card-gap: 2.8125rem; /* 45px */
+  --spacing-thumb-h: 4.25rem; /* 68px - compact thumbnail height */
 
   /* Layout — header */
-  --spacing-header: 5rem;          /* 80px */
+  --spacing-header: 5rem; /* 80px */
 
   /* Buttons */
-  --spacing-buy-wide: 15rem;       /* 240px */
+  --spacing-buy-wide: 15rem; /* 240px */
 }
 
 /* Compound layout utility shared by compact card row & skeleton */
@@ -32,8 +32,12 @@
 }
 
 @keyframes shimmer {
-  from { background-position: -600px 0; }
-  to   { background-position: 600px 0; }
+  from {
+    background-position: -600px 0;
+  }
+  to {
+    background-position: 600px 0;
+  }
 }
 
 .skeleton {

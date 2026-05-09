@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { Book } from '@/types/book'
-import Button from './Button'
-import { strings } from '@/constants/strings'
-import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts'
+import { Book } from '@/types/book';
+import Button from './Button';
+import { strings } from '@/constants/strings';
+import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
 
 export default function ExpandedCard({
   book,
@@ -14,13 +14,13 @@ export default function ExpandedCard({
   onCollapse,
   onPurchase,
 }: {
-  book: Book
-  wishlisted: boolean
-  displayPrice: number
-  hasDiscount: boolean
-  onToggleWishlist: () => void
-  onCollapse: () => void
-  onPurchase: () => void
+  book: Book;
+  wishlisted: boolean;
+  displayPrice: number;
+  hasDiscount: boolean;
+  onToggleWishlist: () => void;
+  onCollapse: () => void;
+  onPurchase: () => void;
 }) {
   return (
     <div className="bg-white px-12 py-6">
@@ -35,13 +35,19 @@ export default function ExpandedCard({
         <div className="flex-1 flex flex-col gap-6 min-w-0 p-2 max-w-[360px]">
           <div className="flex items-baseline gap-2 flex-wrap">
             <p className="text-xl font-bold text-text-primary">{book.title}</p>
-            <p className="text-sm text-text-secondary">{book.authors.join(', ')}</p>
+            <p className="text-sm text-text-secondary">
+              {book.authors.join(', ')}
+            </p>
           </div>
 
           {book.contents && (
             <div>
-              <p className="text-sm font-semibold text-text-primary mb-4">{strings.book.intro}</p>
-              <p className="text-xs text-text-secondary leading-relaxed">{book.contents}</p>
+              <p className="text-sm font-semibold text-text-primary mb-4">
+                {strings.book.intro}
+              </p>
+              <p className="text-xs text-text-secondary leading-relaxed">
+                {book.contents}
+              </p>
             </div>
           )}
         </div>
@@ -80,5 +86,5 @@ export default function ExpandedCard({
         </div>
       </div>
     </div>
-  )
+  );
 }

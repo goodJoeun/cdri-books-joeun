@@ -1,13 +1,13 @@
-import SearchBar from '@/components/SearchBar'
-import InfiniteBookResults from '@/components/InfiniteBookResults'
-import { strings } from '@/constants/strings'
+import SearchBar from '@/components/SearchBar';
+import InfiniteBookResults from '@/components/InfiniteBookResults';
+import { strings } from '@/constants/strings';
 
 interface PageProps {
-  searchParams: Promise<{ q?: string; target?: string }>
+  searchParams: Promise<{ q?: string; target?: string }>;
 }
 
 export default async function Home({ searchParams }: PageProps) {
-  const { q = '', target } = await searchParams
+  const { q = '', target } = await searchParams;
 
   return (
     <main className="w-full max-w-[960px] mx-auto py-10 px-4 sm:px-6 lg:px-0">
@@ -15,5 +15,5 @@ export default async function Home({ searchParams }: PageProps) {
       <SearchBar defaultQuery={q} defaultTarget={target} />
       <InfiniteBookResults query={q} target={target} />
     </main>
-  )
+  );
 }

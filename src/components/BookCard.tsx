@@ -1,33 +1,34 @@
-'use client'
+'use client';
 
-import { useState, useRef } from 'react'
-import { Book } from '@/types/book'
-import Button from './Button'
-import { useWishlist } from '@/hooks/useWishlist'
-import { strings } from '@/constants/strings'
-import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts'
-import ExpandedCard from './ExpandedCard'
+import { useState, useRef } from 'react';
+import { Book } from '@/types/book';
+import Button from './Button';
+import { useWishlist } from '@/hooks/useWishlist';
+import { strings } from '@/constants/strings';
+import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
+import ExpandedCard from './ExpandedCard';
 
 export default function BookCard({ book }: { book: Book }) {
-  const [expanded, setExpanded] = useState(false)
-  const [tooltip, setTooltip] = useState<{ x: number; y: number } | null>(null)
-  const titleRef = useRef<HTMLSpanElement>(null)
-  const { toggle, isWishlisted } = useWishlist()
+  const [expanded, setExpanded] = useState(false);
+  const [tooltip, setTooltip] = useState<{ x: number; y: number } | null>(null);
+  const titleRef = useRef<HTMLSpanElement>(null);
+  const { toggle, isWishlisted } = useWishlist();
 
-  const displayPrice = book.sale_price > 0 ? book.sale_price : book.price
-  const hasDiscount = book.sale_price > 0 && book.price > 0 && book.price !== book.sale_price
-  const wishlisted = isWishlisted(book.isbn)
+  const displayPrice = book.sale_price > 0 ? book.sale_price : book.price;
+  const hasDiscount =
+    book.sale_price > 0 && book.price > 0 && book.price !== book.sale_price;
+  const wishlisted = isWishlisted(book.isbn);
 
   const openPurchase = () => {
-    if (book.url) window.open(book.url, '_blank')
-  }
+    if (book.url) window.open(book.url, '_blank');
+  };
 
   const showTooltip = () => {
     if (titleRef.current) {
-      const rect = titleRef.current.getBoundingClientRect()
-      setTooltip({ x: rect.left, y: rect.bottom + 4 })
+      const rect = titleRef.current.getBoundingClientRect();
+      setTooltip({ x: rect.left, y: rect.bottom + 4 });
     }
-  }
+  };
 
   return (
     <li className="border-b border-border-card">
@@ -37,7 +38,10 @@ export default function BookCard({ book }: { book: Book }) {
             book={book}
             wishlisted={wishlisted}
             size="compact"
-            onToggle={e => { e.stopPropagation(); toggle(book) }}
+            onToggle={(e) => {
+              e.stopPropagation();
+              toggle(book);
+            }}
           />
 
           <div className="flex-1 min-w-0">
@@ -99,5 +103,5 @@ export default function BookCard({ book }: { book: Book }) {
         />
       )}
     </li>
-  )
+  );
 }

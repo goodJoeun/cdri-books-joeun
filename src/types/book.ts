@@ -1,23 +1,23 @@
 export interface Book {
-  title: string
-  contents: string
-  url: string
-  isbn: string
-  datetime: string
-  authors: string[]
-  publisher: string
-  translators: string[]
-  price: number
-  sale_price: number
-  thumbnail: string
-  status: string
+  title: string;
+  contents: string;
+  url: string;
+  isbn: string;
+  datetime: string;
+  authors: string[];
+  publisher: string;
+  translators: string[];
+  price: number;
+  sale_price: number;
+  thumbnail: string;
+  status: string;
 }
 
 export interface BookSearchResponse {
-  documents: Book[]
+  documents: Book[];
   meta: {
-    total_count: number
-    pageable_count: number
-    is_end: boolean
-  }
+    total_count: number;
+    pageable_count: number;
+    is_end: boolean;
+  };
 }

@@ -15,5 +15,5 @@ export default function BookCardSkeleton() {
         </div>
       </div>
     </li>
-  )
+  );
 }

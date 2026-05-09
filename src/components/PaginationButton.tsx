@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes } from 'react'
-import { cn } from '@/lib/cn'
+import { ButtonHTMLAttributes } from 'react';
+import { cn } from '@/lib/cn';
 
 export default function PaginationButton({
   className,
@@ -12,11 +12,11 @@ export default function PaginationButton({
         'px-3 py-1.5 text-sm border border-gray-300 rounded',
         'hover:bg-gray-50',
         'disabled:opacity-40 disabled:cursor-not-allowed',
-        className
+        className,
       )}
       {...props}
     >
       {children}
     </button>
-  )
+  );
 }

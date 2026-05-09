@@ -48,4 +48,4 @@ export const strings = {
     emptyAlt: '찜한 책이 없습니다',
     empty: '찜한 책이 없습니다.',
   },
-} as const
+} as const;

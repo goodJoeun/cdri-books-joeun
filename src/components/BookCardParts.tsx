@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import { cva } from 'class-variance-authority'
-import { Book } from '@/types/book'
-import { cn } from '@/lib/cn'
-import { strings } from '@/constants/strings'
+import { cva } from 'class-variance-authority';
+import { Book } from '@/types/book';
+import { cn } from '@/lib/cn';
+import { strings } from '@/constants/strings';
 
-export type CardSize = 'compact' | 'expanded'
+export type CardSize = 'compact' | 'expanded';
 
 export const thumbnailStyles = cva('object-cover rounded', {
   variants: {
@@ -14,7 +14,7 @@ export const thumbnailStyles = cva('object-cover rounded', {
       expanded: 'w-44 h-60 shadow-sm',
     },
   },
-})
+});
 
 export const thumbnailPlaceholderStyles = cva('rounded', {
   variants: {
@@ -23,7 +23,7 @@ export const thumbnailPlaceholderStyles = cva('rounded', {
       expanded: 'w-44 h-60 bg-gray-200',
     },
   },
-})
+});
 
 export const wishlistButtonStyles = cva('absolute', {
   variants: {
@@ -32,7 +32,7 @@ export const wishlistButtonStyles = cva('absolute', {
       expanded: 'top-1.5 right-1.5',
     },
   },
-})
+});
 
 export const heartIconStyles = cva('', {
   variants: {
@@ -41,7 +41,7 @@ export const heartIconStyles = cva('', {
       expanded: 'w-6 h-6',
     },
   },
-})
+});
 
 export function ThumbnailWithWishlist({
   book,
@@ -49,15 +49,19 @@ export function ThumbnailWithWishlist({
   onToggle,
   size,
 }: {
-  book: Book
-  wishlisted: boolean
-  onToggle: React.MouseEventHandler<HTMLButtonElement>
-  size: CardSize
+  book: Book;
+  wishlisted: boolean;
+  onToggle: React.MouseEventHandler<HTMLButtonElement>;
+  size: CardSize;
 }) {
   return (
     <div className="relative shrink-0">
       {book.thumbnail ? (
-        <img src={book.thumbnail} alt={book.title} className={thumbnailStyles({ size })} />
+        <img
+          src={book.thumbnail}
+          alt={book.title}
+          className={thumbnailStyles({ size })}
+        />
       ) : (
         <div className={thumbnailPlaceholderStyles({ size })} />
       )}
@@ -73,7 +77,7 @@ export function ThumbnailWithWishlist({
         />
       </button>
     </div>
-  )
+  );
 }
 
 export function ChevronIcon({ rotated }: { rotated?: boolean }) {
@@ -88,5 +92,5 @@ export function ChevronIcon({ rotated }: { rotated?: boolean }) {
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
     </svg>
-  )
+  );
 }
