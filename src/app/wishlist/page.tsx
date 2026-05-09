@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useWishlist } from '@/hooks/useWishlist'
 import BookList from '@/components/BookList'
+import PaginationButton from '@/components/PaginationButton'
 
 const PAGE_SIZE = 10
 
@@ -33,23 +34,15 @@ export default function WishlistPage() {
 
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-3 mt-8">
-              <button
-                onClick={() => setPage(p => p - 1)}
-                disabled={currentPage === 1}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
+              <PaginationButton onClick={() => setPage(p => p - 1)} disabled={currentPage === 1}>
                 이전
-              </button>
+              </PaginationButton>
               <span className="text-sm text-gray-600">
                 {currentPage} / {totalPages}
               </span>
-              <button
-                onClick={() => setPage(p => p + 1)}
-                disabled={currentPage >= totalPages}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
+              <PaginationButton onClick={() => setPage(p => p + 1)} disabled={currentPage >= totalPages}>
                 다음
-              </button>
+              </PaginationButton>
             </div>
           )}
         </>

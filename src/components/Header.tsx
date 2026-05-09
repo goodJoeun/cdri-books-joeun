@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/cn'
 
 const NAV_ITEMS = [
   { label: '도서 검색', href: '/' },
@@ -22,11 +23,10 @@ export default function Header() {
               <Link
                 key={href}
                 href={href}
-                className={`text-xl pb-1 transition-colors ${
-                  active
-                    ? 'font-medium text-text-primary border-b border-palette-primary'
-                    : 'font-medium text-text-primary'
-                }`}
+                className={cn(
+                  'text-xl font-medium pb-1 transition-colors text-text-primary',
+                  active && 'border-b border-palette-primary'
+                )}
               >
                 {label}
               </Link>

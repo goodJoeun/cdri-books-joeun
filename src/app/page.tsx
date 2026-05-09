@@ -6,6 +6,7 @@ import { useBookSearch } from '@/hooks/useBookSearch'
 import { useSearchHistory } from '@/hooks/useSearchHistory'
 import Button from '@/components/Button'
 import BookList from '@/components/BookList'
+import PaginationButton from '@/components/PaginationButton'
 
 type DetailTarget = 'title' | 'person' | 'publisher'
 
@@ -153,8 +154,8 @@ export default function Home() {
         <div className="relative" ref={detailRef}>
           <Button
             variant="outline"
-            className="text-sm whitespace-nowrap"
-            style={{ borderWidth: '1px', borderRadius: '8px', padding: '5px 10px', gap: '10px', width: '72px', height: '35px', color: 'var(--color-text-subTitle)' }}
+            size="sm"
+            className="text-text-subTitle whitespace-nowrap"
             onClick={handleToggleDetailPopup}
           >
             상세검색
@@ -188,7 +189,7 @@ export default function Home() {
                   ×
                 </button>
               </div>
-              <Button variant="primary" style={{ width: '100%' }} onClick={handleDetailSearch}>
+              <Button variant="primary" className="w-full" onClick={handleDetailSearch}>
                 검색하기
               </Button>
             </div>
@@ -219,23 +220,15 @@ export default function Home() {
 
       {!isFetching && books.length > 0 && (
         <div className="flex items-center justify-center gap-3 mt-8">
-          <button
-            onClick={() => setPage(p => p - 1)}
-            disabled={page === 1}
-            className="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
-          >
+          <PaginationButton onClick={() => setPage(p => p - 1)} disabled={page === 1}>
             이전
-          </button>
+          </PaginationButton>
           <span className="text-sm text-gray-600">
             {page} / {totalPages}
           </span>
-          <button
-            onClick={() => setPage(p => p + 1)}
-            disabled={isEnd || page >= totalPages}
-            className="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
-          >
+          <PaginationButton onClick={() => setPage(p => p + 1)} disabled={isEnd || page >= totalPages}>
             다음
-          </button>
+          </PaginationButton>
         </div>
       )}
     </main>

@@ -187,8 +187,7 @@ export default function BookCard({ book }: { book: Book }) {
                 )}
                 <Button
                   variant="primary"
-                  className="mt-4"
-                  style={{ width: '100%', height: '52px' }}
+                  className="mt-4 w-full h-[52px]"
                   onClick={openPurchase}
                 >
                   구매하기
