@@ -30,9 +30,9 @@ export default function BookCard({ book }: { book: Book }) {
   }
 
   return (
-    <li className="border-b border-[#D2D6DA]">
+    <li className="border-b border-border-card">
       {!expanded && (
-        <div className="flex items-center gap-[45px] px-12 py-2 h-[100px]">
+        <div className="card-row">
           <ThumbnailWithWishlist
             book={book}
             wishlisted={wishlisted}
@@ -44,7 +44,7 @@ export default function BookCard({ book }: { book: Book }) {
             <div className="flex items-baseline gap-2 min-w-0">
               <span
                 ref={titleRef}
-                className="text-[18px] font-bold text-text-primary truncate min-w-0 cursor-default"
+                className="text-lg font-bold text-text-primary truncate min-w-0 cursor-default"
                 onMouseEnter={showTooltip}
                 onMouseLeave={() => setTooltip(null)}
               >
@@ -54,7 +54,7 @@ export default function BookCard({ book }: { book: Book }) {
                 {book.authors.join(', ')}
               </span>
               {displayPrice > 0 && (
-                <span className="text-[18px] font-medium text-text-primary shrink-0 w-20 text-right ml-auto">
+                <span className="text-lg font-medium text-text-primary shrink-0 w-20 text-right ml-auto">
                   {displayPrice.toLocaleString()}원
                 </span>
               )}

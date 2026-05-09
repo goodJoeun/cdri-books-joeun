@@ -1,12 +1,34 @@
 @import "tailwindcss";
 
 @theme {
+  /* Brand */
   --color-palette-primary: #4880EE;
   --color-palette-red: #E84118;
   --color-palette-gray: #DADADA;
+
+  /* Text */
   --color-text-primary: #353C49;
   --color-text-secondary: #6D7582;
   --color-text-subTitle: #8D94A0;
+
+  /* Border */
+  --color-border-card: #D2D6DA;
+
+  /* Layout — book card row */
+  --spacing-card-row: 6.25rem;     /* 100px */
+  --spacing-card-gap: 2.8125rem;   /* 45px */
+  --spacing-thumb-h: 4.25rem;      /* 68px - compact thumbnail height */
+
+  /* Layout — header */
+  --spacing-header: 5rem;          /* 80px */
+
+  /* Buttons */
+  --spacing-buy-wide: 15rem;       /* 240px */
+}
+
+/* Compound layout utility shared by compact card row & skeleton */
+@utility card-row {
+  @apply flex items-center gap-card-gap px-12 py-2 h-card-row;
 }
 
 @keyframes shimmer {

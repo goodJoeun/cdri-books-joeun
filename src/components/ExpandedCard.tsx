@@ -24,7 +24,7 @@ export default function ExpandedCard({
 }) {
   return (
     <div className="bg-white px-12 py-6">
-      <div className="flex items-start gap-[45px]">
+      <div className="flex items-start gap-card-gap">
         <ThumbnailWithWishlist
           book={book}
           wishlisted={wishlisted}
@@ -33,17 +33,15 @@ export default function ExpandedCard({
         />
 
         <div className="flex-1 flex flex-col gap-6 min-w-0 p-2 max-w-[360px]">
-          <div>
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <p className="text-xl font-bold text-gray-900">{book.title}</p>
-              <p className="text-sm text-gray-500">{book.authors.join(', ')}</p>
-            </div>
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <p className="text-xl font-bold text-text-primary">{book.title}</p>
+            <p className="text-sm text-text-secondary">{book.authors.join(', ')}</p>
           </div>
 
           {book.contents && (
             <div>
-              <p className="text-sm font-semibold text-gray-800 mb-4">{strings.book.intro}</p>
-              <p className="text-[12px] text-gray-600 leading-relaxed">{book.contents}</p>
+              <p className="text-sm font-semibold text-text-primary mb-4">{strings.book.intro}</p>
+              <p className="text-xs text-text-secondary leading-relaxed">{book.contents}</p>
             </div>
           )}
         </div>
@@ -60,12 +58,12 @@ export default function ExpandedCard({
 
           <div className="flex flex-col items-end">
             {hasDiscount && (
-              <p className="text-sm text-gray-400 line-through">
+              <p className="text-sm text-text-subTitle line-through">
                 {strings.book.originalPrice(book.price.toLocaleString())}
               </p>
             )}
             {displayPrice > 0 && (
-              <p className="text-lg font-bold text-gray-900">
+              <p className="text-lg font-bold text-text-primary">
                 {hasDiscount
                   ? strings.book.discountPrice(displayPrice.toLocaleString())
                   : strings.book.regularPrice(displayPrice.toLocaleString())}
@@ -73,7 +71,7 @@ export default function ExpandedCard({
             )}
             <Button
               variant="primary"
-              className="mt-4 w-[240px] h-[48px]"
+              className="mt-4 w-buy-wide h-12"
               onClick={onPurchase}
             >
               {strings.book.buy}

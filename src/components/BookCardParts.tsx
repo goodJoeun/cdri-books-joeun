@@ -10,7 +10,7 @@ export type CardSize = 'compact' | 'expanded'
 export const thumbnailStyles = cva('object-cover rounded', {
   variants: {
     size: {
-      compact: 'w-12 h-[68px]',
+      compact: 'w-12 h-thumb-h',
       expanded: 'w-44 h-60 shadow-sm',
     },
   },
@@ -19,7 +19,7 @@ export const thumbnailStyles = cva('object-cover rounded', {
 export const thumbnailPlaceholderStyles = cva('rounded', {
   variants: {
     size: {
-      compact: 'w-12 h-[68px] bg-gray-100',
+      compact: 'w-12 h-thumb-h bg-gray-100',
       expanded: 'w-44 h-60 bg-gray-200',
     },
   },
