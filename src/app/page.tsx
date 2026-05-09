@@ -6,6 +6,7 @@ import { useBookSearch } from '@/hooks/useBookSearch'
 import { useSearchHistory } from '@/hooks/useSearchHistory'
 import Button from '@/components/Button'
 import BookList from '@/components/BookList'
+import BookCardSkeleton from '@/components/BookCardSkeleton'
 import PaginationButton from '@/components/PaginationButton'
 import { strings } from '@/constants/strings'
 
@@ -206,7 +207,16 @@ export default function Home() {
       </p>
 
       {isFetching && (
-        <p className="text-sm text-gray-400 text-center py-10">{strings.search.loading}</p>
+        <>
+          <div className="flex justify-center py-4">
+            <div className="w-6 h-6 rounded-full border-2 border-palette-primary border-t-transparent animate-spin" />
+          </div>
+          <ul className="flex flex-col">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <BookCardSkeleton key={i} />
+            ))}
+          </ul>
+        </>
       )}
 
       {isError && (
