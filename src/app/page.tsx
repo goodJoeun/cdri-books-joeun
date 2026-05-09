@@ -163,11 +163,19 @@ export default function Home() {
 
           {showDetailPopup && (
             <div className="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-20 p-4 w-80">
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex justify-end mb-4">
+                <button
+                  onClick={() => setShowDetailPopup(false)}
+                  className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="flex items-center gap-2 border-b border-palette-primary pb-1.5 mb-4">
                 <select
                   value={detailTarget}
                   onChange={e => setDetailTarget(e.target.value as DetailTarget)}
-                  className="text-sm border border-gray-300 rounded px-2 py-1.5 text-gray-700 outline-none focus:border-gray-500 cursor-pointer"
+                  className="text-sm text-gray-700 outline-none cursor-pointer bg-transparent"
                 >
                   {TARGET_OPTIONS.map(opt => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -180,14 +188,8 @@ export default function Home() {
                   onKeyDown={handleDetailKeyDown}
                   placeholder="검색어 입력"
                   autoFocus
-                  className="flex-1 text-sm border border-gray-300 rounded px-2 py-1.5 outline-none focus:border-gray-500 text-gray-800 placeholder-gray-400"
+                  className="flex-1 text-sm outline-none text-gray-800 placeholder-gray-400 bg-transparent"
                 />
-                <button
-                  onClick={() => setShowDetailPopup(false)}
-                  className="text-gray-400 hover:text-gray-600 text-xl leading-none"
-                >
-                  ×
-                </button>
               </div>
               <Button variant="primary" className="w-full" onClick={handleDetailSearch}>
                 검색하기

@@ -122,7 +122,7 @@ export default function BookCard({ book }: { book: Book }) {
   return (
     <li className="border-b border-[#D2D6DA]">
       {!expanded && (
-        <div className="flex items-center gap-4 px-12 py-2 h-[100px]">
+        <div className="flex items-center gap-[45px] px-12 py-2 h-[100px]">
           <ThumbnailWithWishlist
             book={book}
             wishlisted={wishlisted}
@@ -143,53 +143,43 @@ export default function BookCard({ book }: { book: Book }) {
               <span className="text-sm text-text-secondary shrink-0">
                 {book.authors.join(', ')}
               </span>
+                {displayPrice > 0 && (
+              <span className="text-[18px] font-medium text-text-primary shrink-0 w-20 text-right ml-auto">
+                {displayPrice.toLocaleString()}원
+              </span>
+            )}
             </div>
+          
+            {tooltip && (
+              <div
+                className="fixed z-50 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg pointer-events-none"
+                style={{ top: tooltip.y, left: tooltip.x }}
+              >
+                {book.title}
+              </div>
+            )}
           </div>
 
-          {tooltip && (
-            <div
-              className="fixed z-50 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg pointer-events-none"
-              style={{ top: tooltip.y, left: tooltip.x }}
+          <div className="flex items-center gap-2">
+            <Button variant="primary" onClick={openPurchase}>
+              구매하기
+            </Button>
+
+            <Button
+              variant="ghost"
+              onClick={() => setExpanded(true)}
+              className="flex items-center gap-1 justify-center"
             >
-              {book.title}
-            </div>
-          )}
-
-          {displayPrice > 0 && (
-            <span className="text-sm font-medium text-gray-800 shrink-0 w-20 text-right">
-              {displayPrice.toLocaleString()}원
-            </span>
-          )}
-
-          <Button variant="primary" onClick={openPurchase}>
-            구매하기
-          </Button>
-
-          <Button
-            variant="outline"
-            onClick={() => setExpanded(true)}
-            className="flex items-center gap-1 justify-center"
-          >
-            상세보기
-            <ChevronIcon />
-          </Button>
+              상세보기
+              <ChevronIcon />
+            </Button>
+          </div>
         </div>
       )}
 
       {expanded && (
-        <div className="bg-white">
-          <div className="flex justify-end px-4 pt-3">
-            <Button
-              variant="outline"
-              onClick={() => setExpanded(false)}
-              className="flex items-center gap-1 justify-center"
-            >
-              상세보기
-              <ChevronIcon rotated />
-            </Button>
-          </div>
-
-          <div className="flex gap-6 px-5 pb-5">
+        <div className="bg-white px-12 py-6">
+          <div className="flex items-start gap-[45px]">
             <ThumbnailWithWishlist
               book={book}
               wishlisted={wishlisted}
@@ -197,25 +187,33 @@ export default function BookCard({ book }: { book: Book }) {
               onToggle={() => toggle(book)}
             />
 
-            <div className="flex-1 flex flex-col gap-3 min-w-0">
+            <div className="flex-1 flex flex-col gap-6 min-w-0 p-2 max-w-[360px]">
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
                   <p className="text-xl font-bold text-gray-900">{book.title}</p>
                   <p className="text-sm text-gray-500">{book.authors.join(', ')}</p>
-                </div>
-                {book.publisher && (
-                  <p className="text-sm text-gray-400 mt-0.5">{book.publisher}</p>
-                )}
+                </div>          
               </div>
 
               {book.contents && (
                 <div>
-                  <p className="text-sm font-semibold text-gray-800 mb-1">책 소개</p>
-                  <p className="text-sm text-gray-600 leading-relaxed">{book.contents}</p>
+                  <p className="text-sm font-semibold text-gray-800 mb-4">책 소개</p>
+                  <p className="text-[12px] text-gray-600 leading-relaxed">{book.contents}</p>
                 </div>
               )}
+            </div>
 
-              <div className="mt-auto">
+            <div className="flex flex-col items-end shrink-0 self-stretch justify-between ml-auto">
+              <Button
+                variant="ghost"
+                onClick={() => setExpanded(false)}
+                className="flex items-center gap-1 justify-center"
+              >
+                상세보기
+                <ChevronIcon rotated />
+              </Button>
+
+              <div className="flex flex-col items-end">
                 {hasDiscount && (
                   <p className="text-sm text-gray-400 line-through">
                     원가 {book.price.toLocaleString()}원
@@ -228,7 +226,7 @@ export default function BookCard({ book }: { book: Book }) {
                 )}
                 <Button
                   variant="primary"
-                  className="mt-4 w-full h-[52px]"
+                  className="mt-4 w-[240px] h-[48px]"
                   onClick={openPurchase}
                 >
                   구매하기
