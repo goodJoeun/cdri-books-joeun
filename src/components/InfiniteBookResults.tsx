@@ -104,7 +104,7 @@ export default function InfiniteBookResults({
 
   return (
     <>
-      <p className="text-base font-medium text-text-primary mb-6">
+      <p className="text-base font-medium text-text-primary mb-6 max-w-[700px] mx-auto">
         {strings.search.resultLabel}&nbsp;&nbsp;총{' '}
         <span className="font-medium text-palette-primary">{totalCount}</span>
         {strings.search.resultUnit}

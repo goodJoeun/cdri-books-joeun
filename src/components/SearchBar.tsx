@@ -106,7 +106,7 @@ export default function SearchBar({
   const shouldShowHistory = showHistory && history.length > 0 && !query.trim();
 
   return (
-    <div className="flex items-center gap-2 mb-3 w-full max-w-[568px]">
+    <div className="flex items-center gap-2 mb-3 w-full max-w-[700px] mx-auto">
       <div className="flex-1 relative" ref={containerRef}>
         <div
           className={cn(
@@ -169,7 +169,9 @@ export default function SearchBar({
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSearch(term)}
               >
-                <span className="text-sm font-medium text-text-subTitle">{term}</span>
+                <span className="text-sm font-medium text-text-subTitle">
+                  {term}
+                </span>
                 <button
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={(e) => {
