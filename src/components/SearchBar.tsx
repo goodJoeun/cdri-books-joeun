@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from './Button';
+import { cn } from '@/lib/cn';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { strings } from '@/constants/strings';
 
@@ -104,7 +105,12 @@ export default function SearchBar({
   return (
     <div className="flex items-center gap-2 mb-3 w-full max-w-[568px]">
       <div className="flex-1 relative" ref={containerRef}>
-        <div className="flex items-center rounded px-3 py-2 gap-[11px] h-[50px] w-full">
+        <div
+          className={cn(
+            'flex items-center rounded',
+            'px-3 py-2 gap-[11px] h-[50px] w-full',
+          )}
+        >
           <button
             onClick={() => handleSearch()}
             className="shrink-0 text-gray-400 hover:text-gray-600"
@@ -118,14 +124,28 @@ export default function SearchBar({
             onKeyDown={handleKeyDown}
             onFocus={() => setShowHistory(true)}
             placeholder={strings.search.placeholder}
-            className="flex-1 outline-none text-gray-800 text-base font-medium placeholder:text-text-subTitle placeholder:text-base placeholder:font-medium"
+            className={cn(
+              'flex-1 outline-none',
+              'text-gray-800 text-base font-medium',
+              'placeholder:text-text-subTitle placeholder:text-base placeholder:font-medium',
+            )}
           />
         </div>
 
         {shouldShowHistory && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow-md z-10">
-            <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100">
-              <span className="text-xs text-gray-500">
+          <div
+            className={cn(
+              'absolute top-full left-0 right-0 mt-1 z-10',
+              'bg-white border border-gray-200 rounded shadow-md',
+            )}
+          >
+            <div
+              className={cn(
+                'flex items-center justify-between',
+                'px-3 py-2 border-b border-gray-100',
+              )}
+            >
+              <span className="text-xs text-text-subTitle">
                 {strings.search.recentHistory}
               </span>
               <button
@@ -139,18 +159,24 @@ export default function SearchBar({
             {history.map((term) => (
               <div
                 key={term}
-                className="flex items-center justify-between px-3 py-2 hover:bg-gray-50 cursor-pointer"
+                className={cn(
+                  'flex items-center justify-between',
+                  'px-3 py-2 hover:bg-gray-50 cursor-pointer',
+                )}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSearch(term)}
               >
-                <span className="text-sm text-gray-700">{term}</span>
+                <span className="text-sm font-medium text-text-subTitle">{term}</span>
                 <button
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={(e) => {
                     e.stopPropagation();
                     removeHistory(term);
                   }}
-                  className="text-gray-300 hover:text-gray-500 text-base leading-none px-1"
+                  className={cn(
+                    'text-base leading-none px-1',
+                    'text-gray-300 hover:text-gray-500',
+                  )}
                 >
                   ×
                 </button>
@@ -171,7 +197,13 @@ export default function SearchBar({
         </Button>
 
         {showDetailPopup && (
-          <div className="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-20 p-4 w-80">
+          <div
+            className={cn(
+              'absolute top-full right-0 mt-2 z-20',
+              'bg-white border border-gray-200 rounded-lg shadow-lg',
+              'p-4 w-80',
+            )}
+          >
             <div className="flex justify-end mb-4">
               <button
                 onClick={() => setShowDetailPopup(false)}
@@ -180,13 +212,21 @@ export default function SearchBar({
                 ×
               </button>
             </div>
-            <div className="flex items-center gap-2 border-b border-palette-primary pb-1.5 mb-4">
+            <div
+              className={cn(
+                'flex items-center gap-2',
+                'border-b border-palette-primary pb-1.5 mb-4',
+              )}
+            >
               <select
                 value={detailTarget}
                 onChange={(e) =>
                   setDetailTarget(e.target.value as DetailTarget)
                 }
-                className="text-sm text-gray-700 outline-none cursor-pointer bg-transparent"
+                className={cn(
+                  'text-sm text-gray-700 bg-transparent',
+                  'outline-none cursor-pointer',
+                )}
               >
                 {TARGET_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -201,7 +241,10 @@ export default function SearchBar({
                 onKeyDown={handleDetailKeyDown}
                 placeholder={strings.search.detailPlaceholder}
                 autoFocus
-                className="flex-1 text-sm outline-none text-gray-800 placeholder-gray-400 bg-transparent"
+                className={cn(
+                  'flex-1 text-sm outline-none bg-transparent',
+                  'text-gray-800 placeholder-gray-400',
+                )}
               />
             </div>
             <Button

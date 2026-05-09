@@ -4,8 +4,15 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import BookList from './BookList';
 import BookCardSkeleton from './BookCardSkeleton';
+import { cn } from '@/lib/cn';
 import { useInfiniteBookSearch } from '@/hooks/useInfiniteBookSearch';
 import { strings } from '@/constants/strings';
+
+const spinnerClass = cn(
+  'w-6 h-6 rounded-full',
+  'border-2 border-palette-primary border-t-transparent',
+  'animate-spin',
+);
 
 interface InfiniteBookResultsProps {
   query: string;
@@ -59,7 +66,7 @@ export default function InfiniteBookResults({
     return (
       <>
         <div className="flex justify-center py-4">
-          <div className="w-6 h-6 rounded-full border-2 border-palette-primary border-t-transparent animate-spin" />
+          <div className={spinnerClass} />
         </div>
         <ul className="flex flex-col">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -106,7 +113,7 @@ export default function InfiniteBookResults({
       <div ref={sentinelRef} />
       {isFetchingNextPage && (
         <div className="flex justify-center py-6">
-          <div className="w-6 h-6 rounded-full border-2 border-palette-primary border-t-transparent animate-spin" />
+          <div className={spinnerClass} />
         </div>
       )}
     </>

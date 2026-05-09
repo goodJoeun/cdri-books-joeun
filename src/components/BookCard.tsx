@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { Book } from '@/types/book';
 import Button from './Button';
+import { cn } from '@/lib/cn';
 import { useWishlist } from '@/hooks/useWishlist';
 import { strings } from '@/constants/strings';
 import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
@@ -48,7 +49,7 @@ export default function BookCard({ book }: { book: Book }) {
             <div className="flex items-baseline gap-2 min-w-0">
               <span
                 ref={titleRef}
-                className="text-lg font-bold text-text-primary truncate min-w-0 cursor-default"
+                className={cn('text-lg font-bold text-text-primary', 'truncate min-w-0 cursor-default')}
                 onMouseEnter={showTooltip}
                 onMouseLeave={() => setTooltip(null)}
               >
@@ -58,15 +59,19 @@ export default function BookCard({ book }: { book: Book }) {
                 {book.authors.join(', ')}
               </span>
               {displayPrice > 0 && (
-                <span className="text-lg font-medium text-text-primary shrink-0 w-20 text-right ml-auto">
-                  {displayPrice.toLocaleString()}원
+                <span className={cn('text-lg font-medium text-text-primary', 'shrink-0 w-20 text-right ml-auto')}>
+                  {strings.book.regularPrice(displayPrice.toLocaleString())}
                 </span>
               )}
             </div>
 
             {tooltip && (
               <div
-                className="fixed z-50 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg pointer-events-none"
+                className={cn(
+                  'fixed z-50 pointer-events-none',
+                  'bg-gray-800 text-white text-xs rounded shadow-lg',
+                  'px-2 py-1 whitespace-nowrap',
+                )}
                 style={{ top: tooltip.y, left: tooltip.x }}
               >
                 {book.title}

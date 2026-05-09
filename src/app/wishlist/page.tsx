@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useWishlist } from '@/hooks/useWishlist';
 import BookList from '@/components/BookList';
 import PaginationButton from '@/components/PaginationButton';
+import { cn } from '@/lib/cn';
 import { strings } from '@/constants/strings';
 
 const PAGE_SIZE = 10;
@@ -25,12 +26,14 @@ export default function WishlistPage() {
       <h1 className="text-xl font-bold mb-2">{strings.wishlist.pageTitle}</h1>
       <p className="text-sm text-gray-600 mb-6">
         {strings.wishlist.countPrefix}&nbsp;&nbsp;총{' '}
-        <span className="font-medium">{wishlist.length}</span>
+        <span className="font-medium text-palette-primary">
+          {wishlist.length}
+        </span>
         {strings.wishlist.countUnit}
       </p>
 
       {wishlist.length === 0 ? (
-        <div className="flex flex-col items-center py-16 gap-4">
+        <div className={cn('flex flex-col items-center', 'py-16 gap-4')}>
           <Image
             src="/icon/wishList_empty.svg"
             alt={strings.wishlist.emptyAlt}

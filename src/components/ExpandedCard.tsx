@@ -2,6 +2,7 @@
 
 import { Book } from '@/types/book';
 import Button from './Button';
+import { cn } from '@/lib/cn';
 import { strings } from '@/constants/strings';
 import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
 
@@ -32,7 +33,7 @@ export default function ExpandedCard({
           onToggle={onToggleWishlist}
         />
 
-        <div className="flex-1 flex flex-col gap-6 min-w-0 p-2 max-w-[360px]">
+        <div className={cn('flex-1 flex flex-col gap-6 min-w-0', 'p-2 max-w-[360px]')}>
           <div className="flex items-baseline gap-2 flex-wrap">
             <p className="text-xl font-bold text-text-primary">{book.title}</p>
             <p className="text-sm text-text-secondary">
@@ -52,7 +53,7 @@ export default function ExpandedCard({
           )}
         </div>
 
-        <div className="flex flex-col items-end shrink-0 self-stretch justify-between ml-auto">
+        <div className={cn('flex flex-col items-end shrink-0', 'self-stretch justify-between ml-auto')}>
           <Button
             variant="ghost"
             onClick={onCollapse}
