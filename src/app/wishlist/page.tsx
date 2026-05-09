@@ -25,7 +25,7 @@ export default function WishlistPage() {
 
       {wishlist.length === 0 ? (
         <div className="flex flex-col items-center py-16 gap-4">
-          <Image src="/wishList_empty.svg" alt="찜한 책이 없습니다" width={160} height={121} priority />
+          <Image src="/icon/wishList_empty.svg" alt="찜한 책이 없습니다" width={160} height={121} priority />
           <p className="text-sm text-gray-400">찜한 책이 없습니다.</p>
         </div>
       ) : (

@@ -102,7 +102,7 @@ export default function Home() {
         <div className="flex-1 relative" ref={containerRef}>
           <div className="flex items-center rounded px-3 py-2 gap-[11px] h-[50px] w-full">
             <button onClick={() => handleSearch()} className="shrink-0 text-gray-400 hover:text-gray-600">
-              <img src="/search.svg" alt="" className="w-5 h-5" />
+              <img src="/icon/search.svg" alt="" className="w-5 h-5" />
             </button>
             <input
               type="text"
@@ -212,7 +212,7 @@ export default function Home() {
 
       {!isFetching && !isError && books.length === 0 && (
         <div className="flex flex-col items-center py-16 gap-4">
-          <Image src="/no_data.svg" alt="검색 결과 없음" width={160} height={121} priority />
+          <Image src="/icon/no_data.svg" alt="검색 결과 없음" width={160} height={121} priority />
         </div>
       )}
 

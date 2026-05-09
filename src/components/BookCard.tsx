@@ -47,7 +47,7 @@ export default function BookCard({ book }: { book: Book }) {
               aria-label={wishlisted ? '찜 해제' : '찜하기'}
             >
               <img
-                src={wishlisted ? '/heart_filled.svg' : '/heart_empty.svg'}
+                src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
                 alt=""
                 className="w-4 h-4"
               />
@@ -149,7 +149,7 @@ export default function BookCard({ book }: { book: Book }) {
                 aria-label={wishlisted ? '찜 해제' : '찜하기'}
               >
                 <img
-                  src={wishlisted ? '/heart_filled.svg' : '/heart_empty.svg'}
+                  src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
                   alt=""
                   className="w-6 h-6"
                 />
