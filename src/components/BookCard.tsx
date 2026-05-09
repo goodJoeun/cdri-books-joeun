@@ -1,9 +1,102 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { cva } from 'class-variance-authority'
 import { Book } from '@/types/book'
 import Button from './Button'
 import { useWishlist } from '@/hooks/useWishlist'
+import { cn } from '@/lib/cn'
+
+// className 정리
+const thumbnailStyles = cva('object-cover rounded', {
+  variants: {
+    size: {
+      compact: 'w-12 h-[68px]',
+      expanded: 'w-44 h-60 shadow-sm',
+    },
+  },
+})
+
+const thumbnailPlaceholderStyles = cva('rounded', {
+  variants: {
+    size: {
+      compact: 'w-12 h-[68px] bg-gray-100',
+      expanded: 'w-44 h-60 bg-gray-200',
+    },
+  },
+})
+
+const wishlistButtonStyles = cva('absolute', {
+  variants: {
+    size: {
+      compact: 'top-0.5 right-0.5',
+      expanded: 'top-1.5 right-1.5',
+    },
+  },
+})
+
+const heartIconStyles = cva('', {
+  variants: {
+    size: {
+      compact: 'w-4 h-4',
+      expanded: 'w-6 h-6',
+    },
+  },
+})
+
+// --- Sub-components ---
+
+type CardSize = 'compact' | 'expanded'
+
+function ThumbnailWithWishlist({
+  book,
+  wishlisted,
+  onToggle,
+  size,
+}: {
+  book: Book
+  wishlisted: boolean
+  onToggle: React.MouseEventHandler<HTMLButtonElement>
+  size: CardSize
+}) {
+  return (
+    <div className="relative shrink-0">
+      {book.thumbnail ? (
+        <img src={book.thumbnail} alt={book.title} className={thumbnailStyles({ size })} />
+      ) : (
+        <div className={thumbnailPlaceholderStyles({ size })} />
+      )}
+      <button
+        onClick={onToggle}
+        className={wishlistButtonStyles({ size })}
+        aria-label={wishlisted ? '찜 해제' : '찜하기'}
+      >
+        <img
+          src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
+          alt=""
+          className={heartIconStyles({ size })}
+        />
+      </button>
+    </div>
+  )
+}
+
+function ChevronIcon({ rotated }: { rotated?: boolean }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn('w-3.5 h-3.5', rotated && 'rotate-180')}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  )
+}
+
+// --- Main Component ---
 
 export default function BookCard({ book }: { book: Book }) {
   const [expanded, setExpanded] = useState(false)
@@ -28,31 +121,14 @@ export default function BookCard({ book }: { book: Book }) {
 
   return (
     <li className="border-b border-[#D2D6DA]">
-      {/* 기본 행 - expanded일 때 숨김 */}
       {!expanded && (
-        <div className="flex items-center gap-4 px-4 py-3">
-          <div className="relative shrink-0">
-            {book.thumbnail ? (
-              <img
-                src={book.thumbnail}
-                alt={book.title}
-                className="w-14 h-20 object-cover rounded"
-              />
-            ) : (
-              <div className="w-14 h-20 bg-gray-100 rounded" />
-            )}
-            <button
-              onClick={e => { e.stopPropagation(); toggle(book) }}
-              className="absolute bottom-0.5 right-0.5"
-              aria-label={wishlisted ? '찜 해제' : '찜하기'}
-            >
-              <img
-                src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
-                alt=""
-                className="w-4 h-4"
-              />
-            </button>
-          </div>
+        <div className="flex items-center gap-4 px-12 py-2 h-[100px]">
+          <ThumbnailWithWishlist
+            book={book}
+            wishlisted={wishlisted}
+            size="compact"
+            onToggle={e => { e.stopPropagation(); toggle(book) }}
+          />
 
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-2 min-w-0">
@@ -95,21 +171,11 @@ export default function BookCard({ book }: { book: Book }) {
             className="flex items-center gap-1 justify-center"
           >
             상세보기
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-3.5 h-3.5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
+            <ChevronIcon />
           </Button>
         </div>
       )}
 
-      {/* 상세 패널 - expanded일 때만 표시 */}
       {expanded && (
         <div className="bg-white">
           <div className="flex justify-end px-4 pt-3">
@@ -119,42 +185,17 @@ export default function BookCard({ book }: { book: Book }) {
               className="flex items-center gap-1 justify-center"
             >
               상세보기
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3.5 h-3.5 rotate-180"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
+              <ChevronIcon rotated />
             </Button>
           </div>
 
           <div className="flex gap-6 px-5 pb-5">
-            <div className="relative shrink-0">
-              {book.thumbnail ? (
-                <img
-                  src={book.thumbnail}
-                  alt={book.title}
-                  className="w-44 h-60 object-cover rounded shadow-sm"
-                />
-              ) : (
-                <div className="w-44 h-60 bg-gray-200 rounded" />
-              )}
-              <button
-                onClick={() => toggle(book)}
-                className="absolute top-1.5 right-1.5"
-                aria-label={wishlisted ? '찜 해제' : '찜하기'}
-              >
-                <img
-                  src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
-                  alt=""
-                  className="w-6 h-6"
-                />
-              </button>
-            </div>
+            <ThumbnailWithWishlist
+              book={book}
+              wishlisted={wishlisted}
+              size="expanded"
+              onToggle={() => toggle(book)}
+            />
 
             <div className="flex-1 flex flex-col gap-3 min-w-0">
               <div>
