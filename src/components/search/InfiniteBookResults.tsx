@@ -85,7 +85,8 @@ export default function InfiniteBookResults({
     );
   }
 
-  const books = data.pages.flatMap((p) => p.documents);
+  const allBooks = data.pages.flatMap((p) => p.documents);
+  const books = Array.from(new Map(allBooks.map((b) => [b.isbn, b])).values());
   const totalCount = data.pages[0].meta.total_count;
 
   if (books.length === 0) {
