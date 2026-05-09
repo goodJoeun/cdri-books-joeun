@@ -5,6 +5,7 @@ import Button from '../ui/Button';
 import { cn } from '@/lib/cn';
 import { strings } from '@/constants/strings';
 import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
+import TruncatedTooltip from '../ui/TruncatedTooltip';
 
 export default function ExpandedCard({
   book,
@@ -35,22 +36,23 @@ export default function ExpandedCard({
 
         <div className={cn('flex-1 flex flex-col gap-6 min-w-0', 'p-2 max-w-[360px]')}>
           <div className="flex items-baseline gap-2 flex-wrap">
-            <p className="text-xl font-bold text-text-primary">{book.title}</p>
+            <TruncatedTooltip
+              text={book.title}
+              className="text-xl font-bold text-text-primary"
+            />
             <p className="text-sm text-text-secondary">
               {book.authors.join(', ')}
             </p>
           </div>
 
-          {book.contents && (
-            <div>
-              <p className="text-sm font-semibold text-text-primary mb-4">
-                {strings.book.intro}
-              </p>
-              <p className="text-xs text-text-secondary leading-relaxed">
-                {book.contents}
-              </p>
-            </div>
-          )}
+          <div>
+            <p className="text-sm font-semibold text-text-primary mb-4">
+              {strings.book.intro}
+            </p>
+            <p className="text-xs text-text-secondary leading-relaxed">
+              {book.contents || strings.book.noContents}
+            </p>
+          </div>
         </div>
 
         <div className={cn('flex flex-col items-end shrink-0', 'self-stretch justify-between ml-auto')}>

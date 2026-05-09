@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Book } from '@/types/book';
 import Button from '../ui/Button';
 import { cn } from '@/lib/cn';
@@ -8,11 +8,10 @@ import { useWishlist } from '@/hooks/useWishlist';
 import { strings } from '@/constants/strings';
 import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
 import ExpandedCard from './ExpandedCard';
+import TruncatedTooltip from '../ui/TruncatedTooltip';
 
 export default function BookCard({ book }: { book: Book }) {
   const [expanded, setExpanded] = useState(false);
-  const [tooltip, setTooltip] = useState<{ x: number; y: number } | null>(null);
-  const titleRef = useRef<HTMLSpanElement>(null);
   const { toggle, isWishlisted } = useWishlist();
 
   const displayPrice = book.sale_price > 0 ? book.sale_price : book.price;
@@ -22,13 +21,6 @@ export default function BookCard({ book }: { book: Book }) {
 
   const openPurchase = () => {
     if (book.url) window.open(book.url, '_blank');
-  };
-
-  const showTooltip = () => {
-    if (titleRef.current) {
-      const rect = titleRef.current.getBoundingClientRect();
-      setTooltip({ x: rect.left, y: rect.bottom + 4 });
-    }
   };
 
   return (
@@ -47,14 +39,10 @@ export default function BookCard({ book }: { book: Book }) {
 
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-2 min-w-0">
-              <span
-                ref={titleRef}
-                className={cn('text-lg font-bold text-text-primary', 'truncate min-w-0 cursor-default')}
-                onMouseEnter={showTooltip}
-                onMouseLeave={() => setTooltip(null)}
-              >
-                {book.title}
-              </span>
+              <TruncatedTooltip
+                text={book.title}
+                className="text-lg font-bold text-text-primary"
+              />
               <span className="text-sm text-text-secondary shrink-0">
                 {book.authors.join(', ')}
               </span>
@@ -64,19 +52,6 @@ export default function BookCard({ book }: { book: Book }) {
                 </span>
               )}
             </div>
-
-            {tooltip && (
-              <div
-                className={cn(
-                  'fixed z-50 pointer-events-none',
-                  'bg-gray-800 text-white text-xs rounded shadow-lg',
-                  'px-2 py-1 whitespace-nowrap',
-                )}
-                style={{ top: tooltip.y, left: tooltip.x }}
-              >
-                {book.title}
-              </div>
-            )}
           </div>
 
           <div className="flex items-center gap-2">

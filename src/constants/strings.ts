@@ -34,6 +34,7 @@ export const strings = {
     buy: '구매하기',
     detail: '상세보기',
     intro: '책 소개',
+    noContents: '등록된 책 소개가 없습니다.',
     wishAdd: '찜하기',
     wishRemove: '찜 해제',
     originalPrice: (price: string) => `원가 ${price}원`,
