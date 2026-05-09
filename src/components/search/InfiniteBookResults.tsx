@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import BookList from '../book/BookList';
 import BookCardSkeleton from '../book/BookCardSkeleton';
+import Text from '../ui/Text';
 import { cn } from '@/lib/cn';
 import { useInfiniteBookSearch } from '@/hooks/useInfiniteBookSearch';
 import { strings } from '@/constants/strings';
@@ -79,9 +80,13 @@ export default function InfiniteBookResults({
 
   if (isError) {
     return (
-      <p className="text-sm text-red-500 text-center py-10">
-        {strings.search.error}
-      </p>
+      <Text
+        as="p"
+        size="sm"
+        color="error"
+        className="text-center py-10"
+        text={strings.search.error}
+      />
     );
   }
 
@@ -105,11 +110,20 @@ export default function InfiniteBookResults({
 
   return (
     <>
-      <p className="text-base font-medium text-text-primary mb-6 max-w-[700px] mx-auto">
-        {strings.search.resultLabel}&nbsp;&nbsp;총{' '}
-        <span className="font-medium text-palette-primary">{totalCount}</span>
-        {strings.search.resultUnit}
-      </p>
+      <Text
+        as="p"
+        size="base"
+        weight="medium"
+        color="primary"
+        className="mb-6 max-w-[700px] mx-auto"
+        text={
+          <>
+            {strings.search.resultLabel}&nbsp;&nbsp;총{' '}
+            <Text weight="medium" color="accent" text={totalCount} />
+            {strings.search.resultUnit}
+          </>
+        }
+      />
       <BookList books={books} />
       <div ref={sentinelRef} />
       {isFetchingNextPage && (

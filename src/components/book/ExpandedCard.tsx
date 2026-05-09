@@ -2,6 +2,7 @@
 
 import { Book } from '@/types/book';
 import Button from '../ui/Button';
+import Text from '../ui/Text';
 import { cn } from '@/lib/cn';
 import { strings } from '@/constants/strings';
 import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
@@ -64,18 +65,30 @@ export default function ExpandedCard({
               text={book.title}
               className="text-lg lg:text-xl font-bold text-text-primary"
             />
-            <p className="text-sm text-text-secondary">
-              {book.authors.join(', ')}
-            </p>
+            <Text
+              as="p"
+              size="sm"
+              color="secondary"
+              text={book.authors.join(', ')}
+            />
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-text-primary mb-4">
-              {strings.book.intro}
-            </p>
-            <p className="text-xs text-text-secondary leading-relaxed">
-              {book.contents || strings.book.noContents}
-            </p>
+            <Text
+              as="p"
+              size="sm"
+              weight="semibold"
+              color="primary"
+              className="mb-4"
+              text={strings.book.intro}
+            />
+            <Text
+              as="p"
+              size="xs"
+              color="secondary"
+              className="leading-relaxed"
+              text={book.contents || strings.book.noContents}
+            />
           </div>
         </div>
 
@@ -96,16 +109,26 @@ export default function ExpandedCard({
 
           <div className="flex flex-col items-end w-full lg:w-auto">
             {hasDiscount && (
-              <p className="text-sm text-text-subTitle line-through">
-                {strings.book.originalPrice(book.price.toLocaleString())}
-              </p>
+              <Text
+                as="p"
+                size="sm"
+                color="subTitle"
+                className="line-through"
+                text={strings.book.originalPrice(book.price.toLocaleString())}
+              />
             )}
             {displayPrice > 0 && (
-              <p className="text-lg font-bold text-text-primary">
-                {hasDiscount
-                  ? strings.book.discountPrice(displayPrice.toLocaleString())
-                  : strings.book.regularPrice(displayPrice.toLocaleString())}
-              </p>
+              <Text
+                as="p"
+                size="lg"
+                weight="bold"
+                color="primary"
+                text={
+                  hasDiscount
+                    ? strings.book.discountPrice(displayPrice.toLocaleString())
+                    : strings.book.regularPrice(displayPrice.toLocaleString())
+                }
+              />
             )}
             <Button
               variant="primary"

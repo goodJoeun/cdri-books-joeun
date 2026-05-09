@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../ui/Button';
+import Text from '../ui/Text';
+import Input from '../ui/Input';
 import { cn } from '@/lib/cn';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { strings } from '@/constants/strings';
@@ -120,7 +122,7 @@ export default function SearchBar({
           >
             <img src="/icon/search.svg" alt="" className="w-5 h-5" />
           </button>
-          <input
+          <Input
             type="text"
             value={query}
             onChange={(e) => {
@@ -134,11 +136,7 @@ export default function SearchBar({
             onKeyDown={handleKeyDown}
             onFocus={() => setShowHistory(true)}
             placeholder={strings.search.placeholder}
-            className={cn(
-              'flex-1 outline-none',
-              'text-gray-800 text-base font-medium',
-              'placeholder:text-text-subTitle placeholder:text-base placeholder:font-medium',
-            )}
+            className="flex-1"
           />
         </div>
 
@@ -155,9 +153,11 @@ export default function SearchBar({
                 'px-3 py-2 border-b border-gray-100',
               )}
             >
-              <span className="text-xs text-text-subTitle">
-                {strings.search.recentHistory}
-              </span>
+              <Text
+                size="xs"
+                color="subTitle"
+                text={strings.search.recentHistory}
+              />
               <button
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={clearHistory}
@@ -176,9 +176,7 @@ export default function SearchBar({
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSearch(term)}
               >
-                <span className="text-sm font-medium text-text-subTitle">
-                  {term}
-                </span>
+                <Text size="sm" weight="medium" color="subTitle" text={term} />
                 <button
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={(e) => {
@@ -246,17 +244,15 @@ export default function SearchBar({
                   </option>
                 ))}
               </select>
-              <input
+              <Input
+                variant="sm"
                 type="text"
                 value={detailQuery}
                 onChange={(e) => setDetailQuery(e.target.value)}
                 onKeyDown={handleDetailKeyDown}
                 placeholder={strings.search.detailPlaceholder}
                 autoFocus
-                className={cn(
-                  'flex-1 text-sm outline-none bg-transparent',
-                  'text-gray-800 placeholder-gray-400',
-                )}
+                className="flex-1"
               />
             </div>
             <Button

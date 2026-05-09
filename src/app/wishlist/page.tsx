@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useWishlist } from '@/hooks/useWishlist';
 import BookList from '@/components/book/BookList';
+import Heading from '@/components/ui/Heading';
+import Text from '@/components/ui/Text';
 import { cn } from '@/lib/cn';
 import { strings } from '@/constants/strings';
 
@@ -22,14 +24,20 @@ export default function WishlistPage() {
 
   return (
     <main className="w-full max-w-[960px] mx-auto py-10 px-4 sm:px-6 lg:px-0">
-      <h1 className="text-xl font-bold mb-2">{strings.wishlist.pageTitle}</h1>
-      <p className="text-sm text-gray-600 mb-6">
-        {strings.wishlist.countPrefix}&nbsp;&nbsp;총{' '}
-        <span className="font-medium text-palette-primary">
-          {wishlist.length}
-        </span>
-        {strings.wishlist.countUnit}
-      </p>
+      <Heading className="mb-2" text={strings.wishlist.pageTitle} />
+      <Text
+        as="p"
+        size="sm"
+        color="muted"
+        className="mb-6"
+        text={
+          <>
+            {strings.wishlist.countPrefix}&nbsp;&nbsp;총{' '}
+            <Text weight="medium" color="accent" text={wishlist.length} />
+            {strings.wishlist.countUnit}
+          </>
+        }
+      />
 
       {wishlist.length === 0 ? (
         <div className={cn('flex flex-col items-center', 'py-16 gap-4')}>

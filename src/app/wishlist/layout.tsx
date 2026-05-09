@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   title: strings.wishlist.pageTitle,
 };
 
-export default function WishlistLayout({ children }: { children: React.ReactNode }) {
+export default function WishlistLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return <>{children}</>;
 }

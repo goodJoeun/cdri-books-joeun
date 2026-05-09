@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Book } from '@/types/book';
 import Button from '../ui/Button';
+import Text from '../ui/Text';
 import { cn } from '@/lib/cn';
 import { useWishlist } from '@/hooks/useWishlist';
 import { strings } from '@/constants/strings';
@@ -47,18 +48,22 @@ export default function BookCard({ book }: { book: Book }) {
                 text={book.title}
                 className="text-base sm:text-lg font-bold text-text-primary"
               />
-              <span className="text-xs sm:text-sm text-text-secondary truncate sm:shrink-0">
-                {book.authors.join(', ')}
-              </span>
+              <Text
+                size="xs"
+                color="secondary"
+                className="sm:text-sm truncate sm:shrink-0"
+                text={book.authors.join(', ')}
+              />
               {displayPrice > 0 && (
-                <span
-                  className={cn(
-                    'text-sm sm:text-lg font-medium text-text-primary',
-                    'shrink-0 sm:w-20 sm:text-right sm:ml-auto',
+                <Text
+                  size="sm"
+                  weight="medium"
+                  color="primary"
+                  className="sm:text-lg shrink-0 sm:w-20 sm:text-right sm:ml-auto"
+                  text={strings.book.regularPrice(
+                    displayPrice.toLocaleString(),
                   )}
-                >
-                  {strings.book.regularPrice(displayPrice.toLocaleString())}
-                </span>
+                />
               )}
             </div>
           </div>
