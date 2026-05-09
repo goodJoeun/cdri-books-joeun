@@ -16,7 +16,7 @@ export default function WishlistPage() {
   const pagedBooks = wishlist.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   return (
-    <main className="max-w-5xl mx-auto px-6 py-10">
+    <main className="w-[960px] mx-auto py-10">
       <h1 className="text-xl font-bold mb-2">내가 찜한 책</h1>
       <p className="text-sm text-gray-600 mb-6">
         찜한 책&nbsp;&nbsp;총 <span className="font-medium">{wishlist.length}</span>건

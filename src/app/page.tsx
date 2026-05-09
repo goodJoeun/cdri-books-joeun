@@ -94,27 +94,14 @@ export default function Home() {
   const shouldShowHistory = showHistory && history.length > 0 && !query.trim()
 
   return (
-    <main className="max-w-5xl mx-auto px-6 py-10">
+    <main className="w-full max-w-[960px] mx-auto py-10 px-4 sm:px-6 lg:px-0">
       <h1 className="text-xl font-bold mb-6">도서 검색</h1>
 
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-2 mb-3 w-full max-w-[568px]">
         <div className="flex-1 relative" ref={containerRef}>
-          <div className="flex items-center border border-gray-300 rounded px-3 py-2 gap-2 focus-within:border-gray-500">
+          <div className="flex items-center rounded px-3 py-2 gap-[11px] h-[50px] w-full">
             <button onClick={() => handleSearch()} className="shrink-0 text-gray-400 hover:text-gray-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
-                />
-              </svg>
+              <img src="/search.svg" alt="" className="w-5 h-5" />
             </button>
             <input
               type="text"
@@ -123,7 +110,7 @@ export default function Home() {
               onKeyDown={handleKeyDown}
               onFocus={() => setShowHistory(true)}
               placeholder="검색어를 입력하세요"
-              className="flex-1 text-sm outline-none text-gray-800 placeholder-gray-400"
+              className="flex-1 outline-none text-gray-800 text-base font-medium placeholder:text-[#8D94A0] placeholder:text-base placeholder:font-medium"
             />
           </div>
 
@@ -164,7 +151,12 @@ export default function Home() {
         </div>
 
         <div className="relative" ref={detailRef}>
-          <Button variant="outline" className="py-2" onClick={handleToggleDetailPopup}>
+          <Button
+            variant="outline"
+            className="text-sm whitespace-nowrap"
+            style={{ borderWidth: '1px', borderRadius: '8px', padding: '5px 10px', gap: '10px', width: '72px', height: '35px', color: '#8D94A0' }}
+            onClick={handleToggleDetailPopup}
+          >
             상세검색
           </Button>
 
@@ -204,9 +196,9 @@ export default function Home() {
         </div>
       </div>
 
-      <p className="text-sm text-gray-600 mb-6">
+      <p className="text-base font-medium text-[#353C49] mb-6">
         도서 검색 결과&nbsp;&nbsp;총{' '}
-        <span className="font-medium">{searchQuery ? totalCount : 0}</span>건
+        <span className="font-medium text-[#4880EE]">{searchQuery ? totalCount : 0}</span>건
       </p>
 
       {isFetching && (
