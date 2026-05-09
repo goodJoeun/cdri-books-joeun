@@ -45,9 +45,12 @@ export default function SearchBar({
   }, [defaultQuery]);
 
   const navigate = (term: string, target?: string) => {
-    const params = new URLSearchParams({ q: term, page: '1' });
+    const params = new URLSearchParams({ q: term });
     if (target) params.set('target', target);
-    router.push(`/?${params}`);
+    const href = `/?${params}`;
+    sessionStorage.setItem('lastSearchHref', href);
+    window.dispatchEvent(new CustomEvent('search:navigate', { detail: href }));
+    router.push(href);
   };
 
   const handleSearch = (term?: string) => {

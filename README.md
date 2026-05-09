@@ -1,73 +1,78 @@
-# React + TypeScript + Vite
+# Certicos Books
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kakao Book Search API를 활용한 도서 검색 및 위시리스트 앱입니다.
 
-Currently, two official plugins are available:
+## 기술 스택
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **프레임워크**: Next.js (App Router)
+- **언어**: TypeScript
+- **스타일**: Tailwind CSS
+- **데이터 페칭**: TanStack React Query + Axios
+- **인-메모리 DB**: better-sqlite3 (`:memory:` 모드) — 서버 재시작 시 초기화
 
-## React Compiler
+## 시작하기
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 사전 요구 사항
 
-## Expanding the ESLint configuration
+- Node.js 18 이상
+- npm 9 이상
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 환경 변수 설정
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+프로젝트 루트에 `.env` 파일을 생성합니다:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+REST_API_KEY=<카카오 REST API 키>
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 설치 및 실행
+
+```bash
+# 의존성 설치
+npm install
+
+# 개발 서버 실행 (http://localhost:3000)
+npm run dev
+
+# 프로덕션 빌드
+npm run build
+npm run start
+```
+
+## 인-메모리 DB (H2DB 대체)
+
+서버사이드 데이터 저장에 `better-sqlite3`를 `:memory:` 모드로 사용합니다.
+
+| 항목 | 설명 |
+|------|------|
+| 저장 방식 | 서버 프로세스 메모리 내 SQLite |
+| 초기화 시점 | 서버(Next.js) 재시작 시 |
+| 개발 HMR | 핫 리로드 간 데이터 유지 (`global.__db` 싱글턴) |
+
+### API 엔드포인트
+
+| Method | Path | 설명 |
+|--------|------|------|
+| GET | `/api/search-history` | 검색 기록 조회 |
+| POST | `/api/search-history` | 검색어 추가 |
+| DELETE | `/api/search-history` | 전체 삭제 |
+| DELETE | `/api/search-history/[term]` | 특정 검색어 삭제 |
+| GET | `/api/wishlist` | 위시리스트 조회 |
+| POST | `/api/wishlist` | 위시리스트 토글 (추가/삭제) |
+| DELETE | `/api/wishlist/[isbn]` | 특정 도서 삭제 |
+
+### 인증 토큰
+
+`axios` 인터셉터가 `token` 쿠키에서 Bearer 토큰을 자동으로 읽어 요청 헤더에 추가합니다.
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+// 로그인 후 토큰 설정 예시
+document.cookie = `token=<your-token>; path=/; SameSite=Lax`;
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+## 코드 포맷
+
+```bash
+npm run format
 ```

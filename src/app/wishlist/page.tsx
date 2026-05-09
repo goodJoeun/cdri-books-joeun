@@ -41,12 +41,10 @@ export default function WishlistPage() {
             height={121}
             priority
           />
-          <p className="text-sm text-gray-400">{strings.wishlist.empty}</p>
         </div>
       ) : (
         <>
           <BookList books={pagedBooks} />
-
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-3 mt-8">
               <PaginationButton
