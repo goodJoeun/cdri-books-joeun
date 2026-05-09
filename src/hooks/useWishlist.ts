@@ -15,9 +15,10 @@ function readWishlist(): Book[] {
 }
 
 export function useWishlist() {
-  const [wishlist, setWishlist] = useState<Book[]>(readWishlist)
+  const [wishlist, setWishlist] = useState<Book[]>([])
 
   useEffect(() => {
+    setWishlist(readWishlist())
     const refresh = () => setWishlist(readWishlist())
     window.addEventListener(CHANGE_EVENT, refresh)
     return () => window.removeEventListener(CHANGE_EVENT, refresh)
