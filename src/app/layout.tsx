@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import { Providers } from './providers';
-import Header from '@/components/Header';
+import Header from '@/components/layout/Header';
 import './globals.css';
 
 const notoSansKR = Noto_Sans_KR({
@@ -12,6 +12,9 @@ const notoSansKR = Noto_Sans_KR({
 export const metadata: Metadata = {
   title: 'certicos-books',
   description: 'CERTICOS BOOKS',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({

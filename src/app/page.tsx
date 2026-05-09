@@ -1,7 +1,12 @@
-import SearchBar from '@/components/SearchBar';
-import InfiniteBookResults from '@/components/InfiniteBookResults';
+import type { Metadata } from 'next';
+import SearchBar from '@/components/search/SearchBar';
+import InfiniteBookResults from '@/components/search/InfiniteBookResults';
 import { cn } from '@/lib/cn';
 import { strings } from '@/constants/strings';
+
+export const metadata: Metadata = {
+  title: strings.search.pageTitle,
+};
 
 interface PageProps {
   searchParams: Promise<{ q?: string; target?: string }>;

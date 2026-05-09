@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { Book } from '@/types/book';
-import Button from './Button';
+import Button from '../ui/Button';
 import { cn } from '@/lib/cn';
 import { useWishlist } from '@/hooks/useWishlist';
 import { strings } from '@/constants/strings';

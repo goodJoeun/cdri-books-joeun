@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Button from './Button';
+import Button from '../ui/Button';
 import { cn } from '@/lib/cn';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { strings } from '@/constants/strings';

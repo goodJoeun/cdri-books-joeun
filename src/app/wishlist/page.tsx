@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { useWishlist } from '@/hooks/useWishlist';
-import BookList from '@/components/BookList';
+import BookList from '@/components/book/BookList';
 import { cn } from '@/lib/cn';
 import { strings } from '@/constants/strings';
 

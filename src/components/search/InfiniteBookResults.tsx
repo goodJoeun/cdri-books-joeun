@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import BookList from './BookList';
-import BookCardSkeleton from './BookCardSkeleton';
+import BookList from '../book/BookList';
+import BookCardSkeleton from '../book/BookCardSkeleton';
 import { cn } from '@/lib/cn';
 import { useInfiniteBookSearch } from '@/hooks/useInfiniteBookSearch';
 import { strings } from '@/constants/strings';
