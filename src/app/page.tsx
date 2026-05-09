@@ -7,14 +7,28 @@ import { useSearchHistory } from '@/hooks/useSearchHistory'
 import Button from '@/components/Button'
 import BookList from '@/components/BookList'
 
+type DetailTarget = 'title' | 'person' | 'publisher'
+
+const TARGET_OPTIONS: { value: DetailTarget; label: string }[] = [
+  { value: 'title', label: '제목' },
+  { value: 'person', label: '저자명' },
+  { value: 'publisher', label: '출판사' },
+]
+
 export default function Home() {
   const [query, setQuery] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [page, setPage] = useState(1)
   const [showHistory, setShowHistory] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [showDetailPopup, setShowDetailPopup] = useState(false)
+  const [detailTarget, setDetailTarget] = useState<DetailTarget>('title')
+  const [detailQuery, setDetailQuery] = useState('')
+  const [searchTarget, setSearchTarget] = useState<string | undefined>(undefined)
 
-  const { data, isFetching, isError } = useBookSearch(searchQuery, page)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const detailRef = useRef<HTMLDivElement>(null)
+
+  const { data, isFetching, isError } = useBookSearch(searchQuery, page, searchTarget)
   const { history, addHistory, removeHistory, clearHistory } = useSearchHistory()
 
   const handleSearch = (term?: string) => {
@@ -23,8 +37,11 @@ export default function Home() {
     addHistory(trimmed)
     setQuery(trimmed)
     setSearchQuery(trimmed)
+    setSearchTarget(undefined)
+    setDetailQuery('')
     setPage(1)
     setShowHistory(false)
+    setShowDetailPopup(false)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -32,10 +49,36 @@ export default function Home() {
     if (e.key === 'Escape') setShowHistory(false)
   }
 
+  const handleToggleDetailPopup = () => {
+    const opening = !showDetailPopup
+    if (opening && query) {
+      setQuery('')
+    }
+    setShowDetailPopup(opening)
+    setShowHistory(false)
+  }
+
+  const handleDetailSearch = () => {
+    if (!detailQuery.trim()) return
+    setSearchQuery(detailQuery.trim())
+    setSearchTarget(detailTarget)
+    setQuery('')
+    setPage(1)
+    setShowDetailPopup(false)
+  }
+
+  const handleDetailKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleDetailSearch()
+    if (e.key === 'Escape') setShowDetailPopup(false)
+  }
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setShowHistory(false)
+      }
+      if (detailRef.current && !detailRef.current.contains(e.target as Node)) {
+        setShowDetailPopup(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -120,9 +163,45 @@ export default function Home() {
           )}
         </div>
 
-        <Button variant="outline" className="py-2">
-          상세검색
-        </Button>
+        <div className="relative" ref={detailRef}>
+          <Button variant="outline" className="py-2" onClick={handleToggleDetailPopup}>
+            상세검색
+          </Button>
+
+          {showDetailPopup && (
+            <div className="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-20 p-4 w-80">
+              <div className="flex items-center gap-2 mb-3">
+                <select
+                  value={detailTarget}
+                  onChange={e => setDetailTarget(e.target.value as DetailTarget)}
+                  className="text-sm border border-gray-300 rounded px-2 py-1.5 text-gray-700 outline-none focus:border-gray-500 cursor-pointer"
+                >
+                  {TARGET_OPTIONS.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  value={detailQuery}
+                  onChange={e => setDetailQuery(e.target.value)}
+                  onKeyDown={handleDetailKeyDown}
+                  placeholder="검색어 입력"
+                  autoFocus
+                  className="flex-1 text-sm border border-gray-300 rounded px-2 py-1.5 outline-none focus:border-gray-500 text-gray-800 placeholder-gray-400"
+                />
+                <button
+                  onClick={() => setShowDetailPopup(false)}
+                  className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+                >
+                  ×
+                </button>
+              </div>
+              <Button variant="primary" style={{ width: '100%' }} onClick={handleDetailSearch}>
+                검색하기
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       <p className="text-sm text-gray-600 mb-6">
