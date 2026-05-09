@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import type { BookSearchResponse } from '@/types/book'
 
 async function fetchBooks(query: string, page: number, target?: string): Promise<BookSearchResponse> {
@@ -9,11 +9,13 @@ async function fetchBooks(query: string, page: number, target?: string): Promise
   return res.json()
 }
 
-export function useBookSearch(query: string, page = 1, target?: string) {
-  return useQuery({
-    queryKey: ['books', query, page, target],
-    queryFn: () => fetchBooks(query, page, target),
+export function useInfiniteBookSearch(query: string, target?: string) {
+  return useInfiniteQuery({
+    queryKey: ['books', 'infinite', query, target],
+    queryFn: ({ pageParam }) => fetchBooks(query, pageParam, target),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+      lastPage.meta.is_end ? undefined : lastPageParam + 1,
     enabled: query.trim().length > 0,
-    staleTime: 1000 * 60 * 5,
   })
 }
