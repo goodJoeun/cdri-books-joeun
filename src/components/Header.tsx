@@ -24,8 +24,8 @@ export default function Header() {
                 href={href}
                 className={`text-xl pb-1 transition-colors ${
                   active
-                    ? 'font-medium text-[#353C49] border-b border-[#4880EE]'
-                    : 'font-medium text-[#353C49]'
+                    ? 'font-medium text-text-primary border-b border-palette-primary'
+                    : 'font-medium text-text-primary'
                 }`}
               >
                 {label}

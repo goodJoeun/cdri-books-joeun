@@ -27,7 +27,7 @@ export default function BookCard({ book }: { book: Book }) {
   }
 
   return (
-    <li className="border border-gray-200 rounded overflow-hidden">
+    <li className="border-b border-[#D2D6DA]">
       {/* 기본 행 - expanded일 때 숨김 */}
       {!expanded && (
         <div className="flex items-center gap-4 px-4 py-3">
@@ -58,13 +58,13 @@ export default function BookCard({ book }: { book: Book }) {
             <div className="flex items-baseline gap-2 min-w-0">
               <span
                 ref={titleRef}
-                className="text-base font-bold text-gray-900 truncate min-w-0 cursor-default"
+                className="text-[18px] font-bold text-text-primary truncate min-w-0 cursor-default"
                 onMouseEnter={showTooltip}
                 onMouseLeave={() => setTooltip(null)}
               >
                 {book.title}
               </span>
-              <span className="text-sm text-gray-500 shrink-0">
+              <span className="text-sm text-text-secondary shrink-0">
                 {book.authors.join(', ')}
               </span>
             </div>

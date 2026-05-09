@@ -8,7 +8,7 @@ interface BookListProps {
 export default function BookList({ books }: BookListProps) {
   if (books.length === 0) return null
   return (
-    <ul className="flex flex-col gap-4">
+    <ul className="flex flex-col">
       {books.map(book => (
         <BookCard key={book.isbn} book={book} />
       ))}

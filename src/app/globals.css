@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --color-palette-primary: #4880EE;
+  --color-palette-red: #E84118;
+  --color-palette-gray: #DADADA;
+  --color-text-primary: #353C49;
+  --color-text-secondary: #6D7582;
+  --color-text-subTitle: #8D94A0;
+}

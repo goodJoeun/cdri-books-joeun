@@ -110,7 +110,7 @@ export default function Home() {
               onKeyDown={handleKeyDown}
               onFocus={() => setShowHistory(true)}
               placeholder="검색어를 입력하세요"
-              className="flex-1 outline-none text-gray-800 text-base font-medium placeholder:text-[#8D94A0] placeholder:text-base placeholder:font-medium"
+              className="flex-1 outline-none text-gray-800 text-base font-medium placeholder:text-text-subTitle placeholder:text-base placeholder:font-medium"
             />
           </div>
 
@@ -154,7 +154,7 @@ export default function Home() {
           <Button
             variant="outline"
             className="text-sm whitespace-nowrap"
-            style={{ borderWidth: '1px', borderRadius: '8px', padding: '5px 10px', gap: '10px', width: '72px', height: '35px', color: '#8D94A0' }}
+            style={{ borderWidth: '1px', borderRadius: '8px', padding: '5px 10px', gap: '10px', width: '72px', height: '35px', color: 'var(--color-text-subTitle)' }}
             onClick={handleToggleDetailPopup}
           >
             상세검색
@@ -196,9 +196,9 @@ export default function Home() {
         </div>
       </div>
 
-      <p className="text-base font-medium text-[#353C49] mb-6">
+      <p className="text-base font-medium text-text-primary mb-6">
         도서 검색 결과&nbsp;&nbsp;총{' '}
-        <span className="font-medium text-[#4880EE]">{searchQuery ? totalCount : 0}</span>건
+        <span className="font-medium text-palette-primary">{searchQuery ? totalCount : 0}</span>건
       </p>
 
       {isFetching && (
