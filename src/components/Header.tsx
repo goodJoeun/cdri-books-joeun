@@ -13,9 +13,9 @@ export default function Header() {
 
   return (
     <header className="border-b border-gray-200 bg-white">
-      <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <div className="w-full px-8 h-14 flex items-center relative">
         <span className="font-bold text-base tracking-tight">CERTICOS BOOKS</span>
-        <nav className="flex items-center gap-6">
+        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-6">
           {NAV_ITEMS.map(({ label, href }) => {
             const active = pathname === href
             return (
