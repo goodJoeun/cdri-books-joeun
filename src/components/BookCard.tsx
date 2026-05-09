@@ -3,14 +3,17 @@
 import { useState, useRef } from 'react'
 import { Book } from '@/types/book'
 import Button from './Button'
+import { useWishlist } from '@/hooks/useWishlist'
 
 export default function BookCard({ book }: { book: Book }) {
   const [expanded, setExpanded] = useState(false)
   const [tooltip, setTooltip] = useState<{ x: number; y: number } | null>(null)
   const titleRef = useRef<HTMLSpanElement>(null)
+  const { toggle, isWishlisted } = useWishlist()
 
   const displayPrice = book.sale_price > 0 ? book.sale_price : book.price
   const hasDiscount = book.sale_price > 0 && book.price > 0 && book.price !== book.sale_price
+  const wishlisted = isWishlisted(book.isbn)
 
   const openPurchase = () => {
     if (book.url) window.open(book.url, '_blank')
@@ -27,15 +30,28 @@ export default function BookCard({ book }: { book: Book }) {
     <li className="border border-gray-200 rounded overflow-hidden">
       {/* 기본 행 */}
       <div className="flex items-center gap-4 px-4 py-3">
-        {book.thumbnail ? (
-          <img
-            src={book.thumbnail}
-            alt={book.title}
-            className="w-12 h-16 object-cover shrink-0 rounded"
-          />
-        ) : (
-          <div className="w-12 h-16 bg-gray-100 shrink-0 rounded" />
-        )}
+        <div className="relative shrink-0">
+          {book.thumbnail ? (
+            <img
+              src={book.thumbnail}
+              alt={book.title}
+              className="w-12 h-16 object-cover rounded"
+            />
+          ) : (
+            <div className="w-12 h-16 bg-gray-100 rounded" />
+          )}
+          <button
+            onClick={e => { e.stopPropagation(); toggle(book) }}
+            className="absolute bottom-0.5 right-0.5"
+            aria-label={wishlisted ? '찜 해제' : '찜하기'}
+          >
+            <img
+              src={wishlisted ? '/heart_filled.svg' : '/heart_empty.svg'}
+              alt=""
+              className="w-4 h-4"
+            />
+          </button>
+        </div>
 
         <div className="flex-1 min-w-0">
           <p className="text-sm text-gray-900 flex items-baseline min-w-0">
@@ -94,7 +110,7 @@ export default function BookCard({ book }: { book: Book }) {
       {/* 상세 패널 */}
       {expanded && (
         <div className="border-t border-gray-100 bg-gray-50 p-5 flex gap-6">
-          <div className="shrink-0">
+          <div className="relative shrink-0">
             {book.thumbnail ? (
               <img
                 src={book.thumbnail}
@@ -104,6 +120,17 @@ export default function BookCard({ book }: { book: Book }) {
             ) : (
               <div className="w-32 h-44 bg-gray-200 rounded" />
             )}
+            <button
+              onClick={() => toggle(book)}
+              className="absolute top-1.5 right-1.5"
+              aria-label={wishlisted ? '찜 해제' : '찜하기'}
+            >
+              <img
+                src={wishlisted ? '/heart_filled.svg' : '/heart_empty.svg'}
+                alt=""
+                className="w-5 h-5"
+              />
+            </button>
           </div>
 
           <div className="flex-1 flex flex-col gap-3 min-w-0">
