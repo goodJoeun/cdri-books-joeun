@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useWishlist } from '@/hooks/useWishlist';
 import BookList from '@/components/BookList';
-import PaginationButton from '@/components/PaginationButton';
 import { cn } from '@/lib/cn';
 import { strings } from '@/constants/strings';
 
@@ -43,28 +42,7 @@ export default function WishlistPage() {
           />
         </div>
       ) : (
-        <>
-          <BookList books={pagedBooks} />
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-3 mt-8">
-              <PaginationButton
-                onClick={() => setPage((p) => p - 1)}
-                disabled={currentPage === 1}
-              >
-                {strings.pagination.prev}
-              </PaginationButton>
-              <span className="text-sm text-gray-600">
-                {currentPage} / {totalPages}
-              </span>
-              <PaginationButton
-                onClick={() => setPage((p) => p + 1)}
-                disabled={currentPage >= totalPages}
-              >
-                {strings.pagination.next}
-              </PaginationButton>
-            </div>
-          )}
-        </>
+        <BookList books={pagedBooks} />
       )}
     </main>
   );

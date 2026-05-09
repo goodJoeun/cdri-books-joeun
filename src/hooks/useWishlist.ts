@@ -1,39 +1,35 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Book } from '@/types/book';
 
-const CHANGE_EVENT = 'wishlist:change';
+const WISHLIST_KEY = ['wishlist'];
+
+async function fetchWishlist(): Promise<Book[]> {
+  const res = await fetch('/api/wishlist');
+  return res.json();
+}
 
 export function useWishlist() {
-  const [wishlist, setWishlist] = useState<Book[]>([]);
+  const queryClient = useQueryClient();
 
-  const fetchWishlist = useCallback(async () => {
-    try {
-      const res = await fetch('/api/wishlist');
-      const data = (await res.json()) as Book[];
-      setWishlist(data);
-    } catch {}
-  }, []);
+  const { data: wishlist = [] } = useQuery({
+    queryKey: WISHLIST_KEY,
+    queryFn: fetchWishlist,
+  });
 
-  useEffect(() => {
-    fetchWishlist();
-    const refresh = () => void fetchWishlist();
-    window.addEventListener(CHANGE_EVENT, refresh);
-    return () => window.removeEventListener(CHANGE_EVENT, refresh);
-  }, [fetchWishlist]);
-
-  const toggle = useCallback(
-    async (book: Book) => {
+  const mutation = useMutation({
+    mutationFn: async (book: Book) => {
       await fetch('/api/wishlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(book),
-      }).catch(() => {});
-      await fetchWishlist();
-      window.dispatchEvent(new Event(CHANGE_EVENT));
+      });
     },
-    [fetchWishlist],
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: WISHLIST_KEY });
+    },
+  });
 
+  const toggle = (book: Book) => mutation.mutate(book);
   const isWishlisted = (isbn: string) => wishlist.some((b) => b.isbn === isbn);
 
   return { wishlist, toggle, isWishlisted };
