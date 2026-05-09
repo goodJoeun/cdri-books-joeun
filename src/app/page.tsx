@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useBookSearch } from '@/hooks/useBookSearch'
+import Button from '@/components/Button'
+import BookList from '@/components/BookList'
 
 export default function Home() {
   const [query, setQuery] = useState('')
@@ -53,9 +55,9 @@ export default function Home() {
             className="flex-1 text-sm outline-none text-gray-800 placeholder-gray-400"
           />
         </div>
-        <button className="shrink-0 border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+        <Button variant="outline" className="py-2">
           상세검색
-        </button>
+        </Button>
       </div>
 
       <p className="text-sm text-gray-600 mb-6">
@@ -74,39 +76,10 @@ export default function Home() {
       {!isFetching && !isError && books.length === 0 && (
         <div className="flex flex-col items-center py-16 gap-4">
           <Image src="/no_data.svg" alt="검색 결과 없음" width={160} height={121} priority />
-          <p className="text-sm text-gray-500">검색된 결과가 없습니다.</p>
         </div>
       )}
 
-      {!isFetching && books.length > 0 && (
-        <ul className="flex flex-col gap-4">
-          {books.map(book => (
-            <li key={book.isbn} className="flex gap-4 border border-gray-200 rounded p-4">
-              {book.thumbnail ? (
-                <img
-                  src={book.thumbnail}
-                  alt={book.title}
-                  className="w-16 h-24 object-cover shrink-0 rounded"
-                />
-              ) : (
-                <div className="w-16 h-24 bg-gray-100 shrink-0 rounded" />
-              )}
-              <div className="flex flex-col gap-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 truncate">{book.title}</p>
-                <p className="text-xs text-gray-500">{book.authors.join(', ')} · {book.publisher}</p>
-                <p className="text-xs text-gray-400 line-clamp-2 mt-1">{book.contents}</p>
-                {book.sale_price > 0 ? (
-                  <p className="text-xs font-medium text-gray-700 mt-auto">
-                    {book.sale_price.toLocaleString()}원
-                  </p>
-                ) : (
-                  <p className="text-xs text-gray-400 mt-auto">가격 정보 없음</p>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      {!isFetching && <BookList books={books} />}
     </main>
   )
 }
