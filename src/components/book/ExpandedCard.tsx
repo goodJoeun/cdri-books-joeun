@@ -33,10 +33,9 @@ export default function ExpandedCard({
           size="sm"
           onClick={onCollapse}
           className="flex items-center gap-1 justify-center"
-        >
-          {strings.book.detail}
-          <ChevronIcon rotated />
-        </Button>
+          label={strings.book.detail}
+          icon={<ChevronIcon rotated />}
+        />
       </div>
 
       <div
@@ -102,10 +101,9 @@ export default function ExpandedCard({
             variant="ghost"
             onClick={onCollapse}
             className="hidden lg:flex items-center gap-1 justify-center"
-          >
-            {strings.book.detail}
-            <ChevronIcon rotated />
-          </Button>
+            label={strings.book.detail}
+            icon={<ChevronIcon rotated />}
+          />
 
           <div className="flex flex-col items-end w-full lg:w-auto">
             {hasDiscount && (
@@ -134,9 +132,8 @@ export default function ExpandedCard({
               variant="primary"
               className="mt-4 w-full lg:w-buy-wide h-12"
               onClick={onPurchase}
-            >
-              {strings.book.buy}
-            </Button>
+              label={strings.book.buy}
+            />
           </div>
         </div>
       </div>

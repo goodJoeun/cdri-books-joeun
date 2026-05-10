@@ -108,7 +108,7 @@ export default function SearchBar({
   const shouldShowHistory = showHistory && history.length > 0 && !query.trim();
 
   return (
-    <div className="flex items-center gap-2 mb-3 w-full max-w-[700px] mx-auto border border-palette-gray">
+    <div className="flex items-center gap-2 mb-3 w-full max-w-[700px] mx-auto border border-palette-gray px-[10px] py-[2px] rounded-lg">
       <div className="flex-1 relative" ref={containerRef}>
         <div
           className={cn(
@@ -116,12 +116,13 @@ export default function SearchBar({
             'px-3 py-2 gap-[11px] h-[50px] w-full',
           )}
         >
-          <button
+          <Button
+            variant="ghost"
+            size="auto"
             onClick={() => handleSearch()}
-            className="shrink-0 text-gray-400 hover:text-gray-600"
-          >
-            <img src="/icon/search.svg" alt="" className="w-5 h-5" />
-          </button>
+            className="shrink-0 p-0 text-gray-400 hover:text-gray-600 hover:bg-transparent"
+            icon={<img src="/icon/search.svg" alt="" className="w-5 h-5" />}
+          />
           <Input
             type="text"
             value={query}
@@ -158,13 +159,14 @@ export default function SearchBar({
                 color="subTitle"
                 text={strings.search.recentHistory}
               />
-              <button
+              <Button
+                className="p-0 text-xs text-gray-400 hover:text-gray-600 hover:bg-transparent"
+                variant="ghost"
+                size="auto"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={clearHistory}
-                className="text-xs text-gray-400 hover:text-gray-600"
-              >
-                {strings.search.clearAll}
-              </button>
+                label={strings.search.clearAll}
+              />
             </div>
             {history.map((term) => (
               <div
@@ -177,19 +179,17 @@ export default function SearchBar({
                 onClick={() => handleSearch(term)}
               >
                 <Text size="sm" weight="medium" color="subTitle" text={term} />
-                <button
+                <Button
+                  className="px-1 py-0 text-base leading-none text-gray-300 hover:text-gray-500 hover:bg-transparent"
+                  variant="ghost"
+                  size="auto"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={(e) => {
                     e.stopPropagation();
                     removeHistory(term);
                   }}
-                  className={cn(
-                    'text-base leading-none px-1',
-                    'text-gray-300 hover:text-gray-500',
-                  )}
-                >
-                  ×
-                </button>
+                  label="×"
+                />
               </div>
             ))}
           </div>
@@ -202,9 +202,8 @@ export default function SearchBar({
           size="sm"
           className="text-text-subTitle whitespace-nowrap"
           onClick={handleToggleDetailPopup}
-        >
-          {strings.search.detailSearch}
-        </Button>
+          label={strings.search.detailSearch}
+        />
 
         {showDetailPopup && (
           <div
@@ -215,12 +214,13 @@ export default function SearchBar({
             )}
           >
             <div className="flex justify-end mb-4">
-              <button
+              <Button
+                variant="ghost"
+                size="auto"
                 onClick={() => setShowDetailPopup(false)}
-                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
-              >
-                ×
-              </button>
+                className="p-0 text-xl leading-none text-gray-400 hover:text-gray-600 hover:bg-transparent"
+                label="×"
+              />
             </div>
             <div
               className={cn(
@@ -259,9 +259,8 @@ export default function SearchBar({
               variant="primary"
               className="w-full"
               onClick={handleDetailSearch}
-            >
-              {strings.search.searchButton}
-            </Button>
+              label={strings.search.searchButton}
+            />
           </div>
         )}
       </div>

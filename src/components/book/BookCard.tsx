@@ -74,19 +74,17 @@ export default function BookCard({ book }: { book: Book }) {
               size="sm"
               className="sm:w-[115px] sm:h-[48px] sm:text-sm"
               onClick={openPurchase}
-            >
-              {strings.book.buy}
-            </Button>
+              label={strings.book.buy}
+            />
 
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setExpanded(true)}
               className="sm:w-[115px] sm:h-[48px] flex items-center gap-1 justify-center"
-            >
-              {strings.book.detail}
-              <ChevronIcon />
-            </Button>
+              label={strings.book.detail}
+              icon={<ChevronIcon />}
+            />
           </div>
         </div>
       )}

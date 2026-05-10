@@ -4,6 +4,7 @@ import { cva } from 'class-variance-authority';
 import { Book } from '@/types/book';
 import { cn } from '@/lib/cn';
 import { strings } from '@/resource/strings';
+import Button from '@/components/ui/Button';
 
 export type CardSize = 'compact' | 'expanded';
 
@@ -70,17 +71,20 @@ export function ThumbnailWithWishlist({
       ) : (
         <div className={thumbnailPlaceholderStyles({ size })} />
       )}
-      <button
+      <Button
+        variant="ghost"
+        size="auto"
         onClick={onToggle}
-        className={wishlistButtonStyles({ size })}
+        className={cn('p-0 hover:bg-transparent', wishlistButtonStyles({ size }))}
         aria-label={wishlisted ? strings.book.wishRemove : strings.book.wishAdd}
-      >
-        <img
-          src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
-          alt=""
-          className={heartIconStyles({ size })}
-        />
-      </button>
+        icon={
+          <img
+            src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
+            alt=""
+            className={heartIconStyles({ size })}
+          />
+        }
+      />
     </div>
   );
 }
