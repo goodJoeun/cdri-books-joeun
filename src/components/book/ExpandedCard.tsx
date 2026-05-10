@@ -26,7 +26,7 @@ export default function ExpandedCard({
   onPurchase: () => void;
 }) {
   return (
-    <div className="bg-white px-4 sm:px-6 lg:px-12 py-4 lg:py-6">
+    <div className="animate-expand-in bg-white px-4 sm:px-6 lg:px-12 py-4 lg:py-6">
       <div className="flex justify-end mb-2 lg:hidden">
         <Button
           variant="ghost"
