@@ -135,6 +135,16 @@ export function cn(...inputs: ClassValue[]) {
 }
 ```
 
+### npm
+
+yarn이나 pnpm과 비교했을 때 별도 설정 없이 바로 쓸 수 있고, `package-lock.json`이 의존성 버전을 고정해줘서 환경 간 설치 결과가 동일하게 유지됩니다. 팀 규모가 크거나 모노레포 구조라면 pnpm의 이점이 두드러지지만, 이 프로젝트 규모에서는 npm으로 충분하다고 판단했습니다.
+
+### Turbopack (개발) / webpack (프로덕션)
+
+Next.js 15부터 `next dev`의 기본 번들러가 Turbopack으로 바뀌었습니다. Rust로 작성되어 HMR 속도가 webpack 대비 훨씬 빠르고, 파일을 수정했을 때 변경된 모듈만 골라서 교체하기 때문에 개발 중 체감 속도 차이가 큽니다.
+
+프로덕션 빌드(`next build`)는 webpack을 사용합니다. 트리쉐이킹, 코드 스플리팅, 번들 최적화 등 검증된 파이프라인이 있고, Next.js 생태계 전반에서 오랫동안 안정성이 확인된 조합이라 별도 설정 없이 그대로 사용했습니다.
+
 ### better-sqlite3
 
 검색 이력과 위시리스트 저장을 위해 별도 DB 서버 없이 인-메모리 SQLite를 사용했습니다. 설정이 거의 없고 동기 API라 Route Handler 안에서 쓰기 편합니다. HMR 시 인스턴스가 중복 생성되는 문제는 `global.__db` 싱글턴으로 해결했습니다.
@@ -219,11 +229,6 @@ const buttonVariants = cva('...기본 스타일...', {
 
 특히 `Text` 컴포넌트는 `size`, `weight`, `color`, `as` props를 조합해 타이포그래피를 일관되게 관리할 수 있도록 만들었고, `TruncatedTooltip`은 텍스트가 실제로 잘렸을 때만 툴팁을 보여줘서 긴 제목/저자명 처리에 활용했습니다.
 
-```tsx
-<Text size="sm" weight="semibold" color="primary" text={book.title} />
-<TruncatedTooltip text={book.authors.join(', ')} className="text-sm" />
-```
-
 ---
 
 ### 4. 무한 스크롤
@@ -302,3 +307,54 @@ export const strings = {
 ```
 
 `as const`로 선언해서 타입이 `string`이 아닌 리터럴 타입으로 좁혀지고, 오탈자도 컴파일 단계에서 잡힙니다. 문구를 바꿔야 할 때 컴포넌트를 뒤질 필요 없이 이 파일 한 곳만 수정하면 됩니다.
+
+---
+
+### 7. 찜하기 낙관적 업데이트
+
+하트를 클릭하면 서버 응답을 기다리지 않고 UI가 즉시 반응합니다. React Query의 `onMutate` / `onError` / `onSettled`를 활용한 낙관적 업데이트 패턴으로 구현했습니다.
+
+`onMutate`에서 기존 캐시를 snapshot해두고, 낙관적으로 토글한 뒤, 오류 발생 시 `onError`에서 복원합니다. `onSettled`는 최종 서버 상태와의 동기화를 보장합니다.
+
+---
+
+### 8. App Router 에러 / 로딩 처리
+
+`app/error.tsx`와 `app/loading.tsx`로 에러·로딩 상태를 라우트 단위로 선언적으로 분리했습니다.
+
+**loading.tsx** — 라우트 이동 중 Next.js가 자동으로 Suspense 경계를 생성해 스켈레톤 UI를 노출합니다.
+
+**error.tsx** — React 에러 경계로 동작하며, `reset()`으로 라우트를 재시도할 수 있습니다.
+
+`InfiniteBookResults`에서는 `isError` 상태를 인라인 렌더로 처리하는 대신 `throw error`로 에러 경계에 위임합니다.
+
+---
+
+### 9. 사용자 경험 향상
+
+로딩·인터랙션 곳곳에 시각적 피드백을 추가해 체감 반응성을 높였습니다.
+
+- **스켈레톤 UI**: 검색 결과 로딩 중 카드 형태의 회색 placeholder(`BookCardSkeleton`)를 표시해 레이아웃 이동(layout shift) 없이 자연스럽게 데이터가 채워지는 느낌을 줍니다.
+- **Preloader**: 페이지 최초 진입 시 앱 로고와 함께 짧은 로딩 애니메이션을 보여줘 빈 화면 없이 첫 화면이 등장합니다.
+- **TruncatedTooltip**: 도서 제목·저자명이 영역을 벗어나 잘릴 때에만 자동으로 툴팁을 노출합니다. `scrollWidth > offsetWidth` 판별로 실제로 잘린 경우에만 렌더링되기 때문에 불필요한 툴팁이 뜨지 않습니다.
+- **상세보기 확장 애니메이션**: BookCard 상세 영역이 열릴 때 `expandIn` 키프레임(`0.25s ease-out`)으로 부드럽게 펼쳐집니다. 토큰은 `globals.css`의 `--animate-expand-in`으로 정의해 Tailwind 유틸리티처럼 사용합니다.
+
+---
+
+## 개선하고 싶었던 부분
+
+### 도서 썸네일 이미지 최적화
+
+`BookCardParts.tsx`에서 썸네일을 `<img>` 태그로 렌더링하고 있습니다. Next.js의 `<Image>` 컴포넌트로 교체하면 WebP 자동 변환, 뷰포트 기반 lazy loading, blur placeholder 같은 최적화를 추가 작업 없이 얻을 수 있습니다. Kakao API가 반환하는 이미지 도메인을 `next.config.ts`의 `images.remotePatterns`에 추가하기만 하면 되는데, 이미지 크기가 고정되지 않은 경우 `fill` 레이아웃 처리가 필요해서 시간 관계상 남겨뒀습니다.
+
+### 위시리스트 페이지네이션 UI
+
+`wishlist/page.tsx`에 `totalPages`, `currentPage` 계산 로직과 `setPage`가 이미 있는데, 실제 페이지 이동 버튼을 렌더링하는 코드가 빠져 있습니다. 현재는 찜한 책이 10권을 넘어도 첫 페이지만 볼 수 있는 상태입니다. 버튼 UI만 붙이면 되는 상황이라 아쉬운 부분입니다.
+
+### 테스트 코드
+
+커스텀 훅(`useInfiniteBookSearch`, `useWishlist`)과 API Route Handler에 대한 테스트가 없습니다. 특히 무한스크롤의 페이지 누적 로직이나 위시리스트 토글 동작은 사이드이펙트가 있어서 테스트로 검증해두면 리팩터링 시 안전망이 됩니다.
+
+### 데이터 영속성
+
+인-메모리 SQLite 특성상 서버를 재시작하면 검색 이력과 찜 목록이 초기화됩니다. 실제 서비스라면 파일 기반 SQLite(`:memory:` → 파일 경로)나 외부 DB로 교체가 필요합니다. 현재 구조는 `lib/db.ts` 한 파일만 바꾸면 되도록 설계해뒀습니다.
