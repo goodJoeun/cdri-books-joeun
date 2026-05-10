@@ -3,19 +3,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../ui/Button';
-import Text from '../ui/Text';
 import Input from '../ui/Input';
 import { cn } from '@/lib/cn';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { strings } from '@/resource/strings';
-
-type DetailTarget = 'title' | 'person' | 'publisher';
-
-const TARGET_OPTIONS: { value: DetailTarget; label: string }[] = [
-  { value: 'title', label: strings.search.targetOptions.title },
-  { value: 'person', label: strings.search.targetOptions.person },
-  { value: 'publisher', label: strings.search.targetOptions.publisher },
-];
+import SearchHistoryDropdown from './SearchHistoryDropdown';
+import DetailSearchPopup, { type DetailTarget } from './DetailSearchPopup';
 
 interface SearchBarProps {
   defaultQuery?: string;
@@ -50,7 +43,6 @@ export default function SearchBar({
     const params = new URLSearchParams({ q: term });
     if (target) params.set('target', target);
     const href = `/?${params}`;
-    sessionStorage.setItem('lastSearchHref', href);
     window.dispatchEvent(new CustomEvent('search:navigate', { detail: href }));
     router.push(href);
   };
@@ -140,59 +132,13 @@ export default function SearchBar({
             className="flex-1"
           />
         </div>
-
         {shouldShowHistory && (
-          <div
-            className={cn(
-              'absolute top-full left-0 right-0 mt-1 z-10',
-              'bg-white border border-gray-200 rounded shadow-md',
-            )}
-          >
-            <div
-              className={cn(
-                'flex items-center justify-between',
-                'px-3 py-2 border-b border-gray-100',
-              )}
-            >
-              <Text
-                size="xs"
-                color="subTitle"
-                text={strings.search.recentHistory}
-              />
-              <Button
-                className="p-0 text-xs text-gray-400 hover:text-gray-600 hover:bg-transparent"
-                variant="ghost"
-                size="auto"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={clearHistory}
-                label={strings.search.clearAll}
-              />
-            </div>
-            {history.map((term) => (
-              <div
-                key={term}
-                className={cn(
-                  'flex items-center justify-between',
-                  'px-3 py-2 hover:bg-gray-50 cursor-pointer',
-                )}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => handleSearch(term)}
-              >
-                <Text size="sm" weight="medium" color="subTitle" text={term} />
-                <Button
-                  className="px-1 py-0 text-base leading-none text-gray-300 hover:text-gray-500 hover:bg-transparent"
-                  variant="ghost"
-                  size="auto"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeHistory(term);
-                  }}
-                  label="×"
-                />
-              </div>
-            ))}
-          </div>
+          <SearchHistoryDropdown
+            history={history}
+            onSelect={handleSearch}
+            onRemove={removeHistory}
+            onClear={clearHistory}
+          />
         )}
       </div>
 
@@ -204,64 +150,16 @@ export default function SearchBar({
           onClick={handleToggleDetailPopup}
           label={strings.search.detailSearch}
         />
-
         {showDetailPopup && (
-          <div
-            className={cn(
-              'absolute top-full right-0 mt-2 z-20',
-              'bg-white border border-gray-200 rounded-lg shadow-lg',
-              'p-4 w-[calc(100vw-2rem)] max-w-80 sm:w-80',
-            )}
-          >
-            <div className="flex justify-end mb-4">
-              <Button
-                variant="ghost"
-                size="auto"
-                onClick={() => setShowDetailPopup(false)}
-                className="p-0 text-xl leading-none text-gray-400 hover:text-gray-600 hover:bg-transparent"
-                label="×"
-              />
-            </div>
-            <div
-              className={cn(
-                'flex items-center gap-2',
-                'border-b border-palette-primary pb-1.5 mb-4',
-              )}
-            >
-              <select
-                value={detailTarget}
-                onChange={(e) =>
-                  setDetailTarget(e.target.value as DetailTarget)
-                }
-                className={cn(
-                  'text-sm text-gray-700 bg-transparent',
-                  'outline-none cursor-pointer',
-                )}
-              >
-                {TARGET_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-              <Input
-                variant="sm"
-                type="text"
-                value={detailQuery}
-                onChange={(e) => setDetailQuery(e.target.value)}
-                onKeyDown={handleDetailKeyDown}
-                placeholder={strings.search.detailPlaceholder}
-                autoFocus
-                className="flex-1"
-              />
-            </div>
-            <Button
-              variant="primary"
-              className="w-full"
-              onClick={handleDetailSearch}
-              label={strings.search.searchButton}
-            />
-          </div>
+          <DetailSearchPopup
+            target={detailTarget}
+            query={detailQuery}
+            onTargetChange={setDetailTarget}
+            onQueryChange={(v) => setDetailQuery(v)}
+            onSearch={handleDetailSearch}
+            onKeyDown={handleDetailKeyDown}
+            onClose={() => setShowDetailPopup(false)}
+          />
         )}
       </div>
     </div>

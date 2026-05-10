@@ -12,9 +12,6 @@ export default function Header() {
   const [searchHref, setSearchHref] = useState('/');
 
   useEffect(() => {
-    const saved = sessionStorage.getItem('lastSearchHref');
-    if (saved) setSearchHref(saved);
-
     const handler = (e: Event) => {
       setSearchHref((e as CustomEvent<string>).detail);
     };
@@ -30,7 +27,13 @@ export default function Header() {
   return (
     <header className="bg-white">
       <div className="relative w-full h-header px-4 sm:px-6 lg:px-10 flex items-center justify-between md:justify-start gap-4">
-        <Text weight="bold" size="base" color="primary" className="tracking-tight shrink-0" text={strings.brand} />
+        <Text
+          weight="bold"
+          size="base"
+          color="primary"
+          className="tracking-tight shrink-0"
+          text={strings.brand}
+        />
         <nav className="flex items-center gap-4 sm:gap-8 md:gap-15 md:absolute md:left-1/2 md:-translate-x-1/2">
           {NAV_ITEMS.map(({ label, href }) => {
             const active = pathname === href.split('?')[0];

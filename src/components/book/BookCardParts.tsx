@@ -75,11 +75,16 @@ export function ThumbnailWithWishlist({
         variant="ghost"
         size="auto"
         onClick={onToggle}
-        className={cn('p-0 hover:bg-transparent', wishlistButtonStyles({ size }))}
+        className={cn(
+          'p-0 hover:bg-transparent',
+          wishlistButtonStyles({ size }),
+        )}
         aria-label={wishlisted ? strings.book.wishRemove : strings.book.wishAdd}
         icon={
           <img
-            src={wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'}
+            src={
+              wishlisted ? '/icon/heart_filled.svg' : '/icon/heart_empty.svg'
+            }
             alt=""
             className={heartIconStyles({ size })}
           />
