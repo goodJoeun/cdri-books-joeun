@@ -24,7 +24,23 @@ export function useWishlist() {
         body: JSON.stringify(book),
       });
     },
-    onSuccess: () => {
+    onMutate: async (book: Book) => {
+      await queryClient.cancelQueries({ queryKey: WISHLIST_KEY });
+      const previous = queryClient.getQueryData<Book[]>(WISHLIST_KEY);
+      queryClient.setQueryData<Book[]>(WISHLIST_KEY, (old = []) => {
+        const exists = old.some((b) => b.isbn === book.isbn);
+        return exists
+          ? old.filter((b) => b.isbn !== book.isbn)
+          : [...old, book];
+      });
+      return { previous };
+    },
+    onError: (_err, _book, context) => {
+      if (context?.previous !== undefined) {
+        queryClient.setQueryData(WISHLIST_KEY, context.previous);
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: WISHLIST_KEY });
     },
   });

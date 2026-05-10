@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
@@ -25,14 +25,8 @@ export default function InfiniteBookResults({
   target,
 }: InfiniteBookResultsProps) {
   const sentinelRef = useRef<HTMLDivElement>(null);
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isPending,
-    isError,
-  } = useInfiniteBookSearch(query, target);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } =
+    useInfiniteBookSearch(query, target);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -48,6 +42,8 @@ export default function InfiniteBookResults({
     observer.observe(el);
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  if (isError) throw error;
 
   if (!query.trim()) {
     return (
@@ -78,17 +74,7 @@ export default function InfiniteBookResults({
     );
   }
 
-  if (isError) {
-    return (
-      <Text
-        as="p"
-        size="sm"
-        color="error"
-        className="text-center py-10"
-        text={strings.search.error}
-      />
-    );
-  }
+  if (!data) return null;
 
   const allBooks = data.pages.flatMap((p) => p.documents);
   const books = Array.from(new Map(allBooks.map((b) => [b.isbn, b])).values());
