@@ -347,10 +347,6 @@ export const strings = {
 
 `BookCardParts.tsx`에서 썸네일을 `<img>` 태그로 렌더링하고 있습니다. Next.js의 `<Image>` 컴포넌트로 교체하면 WebP 자동 변환, 뷰포트 기반 lazy loading, blur placeholder 같은 최적화를 추가 작업 없이 얻을 수 있습니다. Kakao API가 반환하는 이미지 도메인을 `next.config.ts`의 `images.remotePatterns`에 추가하기만 하면 되는데, 이미지 크기가 고정되지 않은 경우 `fill` 레이아웃 처리가 필요해서 시간 관계상 남겨뒀습니다.
 
-### 위시리스트 페이지네이션 UI
-
-`wishlist/page.tsx`에 `totalPages`, `currentPage` 계산 로직과 `setPage`가 이미 있는데, 실제 페이지 이동 버튼을 렌더링하는 코드가 빠져 있습니다. 현재는 찜한 책이 10권을 넘어도 첫 페이지만 볼 수 있는 상태입니다. 버튼 UI만 붙이면 되는 상황이라 아쉬운 부분입니다.
-
 ### 테스트 코드
 
 커스텀 훅(`useInfiniteBookSearch`, `useWishlist`)과 API Route Handler에 대한 테스트가 없습니다. 특히 무한스크롤의 페이지 누적 로직이나 위시리스트 토글 동작은 사이드이펙트가 있어서 테스트로 검증해두면 리팩터링 시 안전망이 됩니다.
