@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
-import { strings } from '@/constants/strings';
+﻿import type { Metadata } from 'next';
+import { strings } from '@/resource/strings';
 
 export const metadata: Metadata = {
   title: strings.wishlist.pageTitle,

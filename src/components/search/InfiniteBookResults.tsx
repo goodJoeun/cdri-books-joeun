@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
@@ -7,7 +7,7 @@ import BookCardSkeleton from '../book/BookCardSkeleton';
 import Text from '../ui/Text';
 import { cn } from '@/lib/cn';
 import { useInfiniteBookSearch } from '@/hooks/useInfiniteBookSearch';
-import { strings } from '@/constants/strings';
+import { strings } from '@/resource/strings';
 
 const spinnerClass = cn(
   'w-6 h-6 rounded-full',

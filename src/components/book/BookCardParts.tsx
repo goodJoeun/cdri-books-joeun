@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import { cva } from 'class-variance-authority';
 import { Book } from '@/types/book';
 import { cn } from '@/lib/cn';
-import { strings } from '@/constants/strings';
+import { strings } from '@/resource/strings';
 
 export type CardSize = 'compact' | 'expanded';
 

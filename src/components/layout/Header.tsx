@@ -1,11 +1,11 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Text from '../ui/Text';
 import { cn } from '@/lib/cn';
-import { strings } from '@/constants/strings';
+import { strings } from '@/resource/strings';
 
 export default function Header() {
   const pathname = usePathname();

@@ -1,10 +1,10 @@
-'use client';
+﻿'use client';
 
 import { Book } from '@/types/book';
 import Button from '../ui/Button';
 import Text from '../ui/Text';
 import { cn } from '@/lib/cn';
-import { strings } from '@/constants/strings';
+import { strings } from '@/resource/strings';
 import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
 import TruncatedTooltip from '../ui/TruncatedTooltip';
 

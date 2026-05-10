@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Book } from '@/types/book';
@@ -6,7 +6,7 @@ import Button from '../ui/Button';
 import Text from '../ui/Text';
 import { cn } from '@/lib/cn';
 import { useWishlist } from '@/hooks/useWishlist';
-import { strings } from '@/constants/strings';
+import { strings } from '@/resource/strings';
 import { ThumbnailWithWishlist, ChevronIcon } from './BookCardParts';
 import ExpandedCard from './ExpandedCard';
 import TruncatedTooltip from '../ui/TruncatedTooltip';

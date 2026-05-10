@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import SearchBar from '@/components/search/SearchBar';
 import InfiniteBookResults from '@/components/search/InfiniteBookResults';
 import Heading from '@/components/ui/Heading';
 import { cn } from '@/lib/cn';
-import { strings } from '@/constants/strings';
+import { strings } from '@/resource/strings';
 
 export const metadata: Metadata = {
   title: strings.search.pageTitle,

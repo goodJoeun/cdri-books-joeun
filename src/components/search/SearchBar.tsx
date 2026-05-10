@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -7,7 +7,7 @@ import Text from '../ui/Text';
 import Input from '../ui/Input';
 import { cn } from '@/lib/cn';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
-import { strings } from '@/constants/strings';
+import { strings } from '@/resource/strings';
 
 type DetailTarget = 'title' | 'person' | 'publisher';
 
@@ -108,7 +108,7 @@ export default function SearchBar({
   const shouldShowHistory = showHistory && history.length > 0 && !query.trim();
 
   return (
-    <div className="flex items-center gap-2 mb-3 w-full max-w-[700px] mx-auto">
+    <div className="flex items-center gap-2 mb-3 w-full max-w-[700px] mx-auto border border-palette-gray">
       <div className="flex-1 relative" ref={containerRef}>
         <div
           className={cn(

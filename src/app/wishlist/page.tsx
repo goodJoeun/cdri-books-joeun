@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import BookList from '@/components/book/BookList';
 import Heading from '@/components/ui/Heading';
 import Text from '@/components/ui/Text';
 import { cn } from '@/lib/cn';
-import { strings } from '@/constants/strings';
+import { strings } from '@/resource/strings';
 
 const PAGE_SIZE = 10;
 
