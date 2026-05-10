@@ -120,7 +120,7 @@ src/
 ### Tailwind CSS + clsx + CVA + tailwind-merge
 
 Tailwind만 쓰면 조건부 클래스가 많아질수록 className이 지저분해집니다. 이를 해결하기 위해 세 라이브러리를 조합했습니다.
-(관련 경험은 [링크](https://velog.io/@josuncom/Emotion%EC%97%90%EC%84%9C-Tailwind%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98-2-%EC%9E%AC%EC%82%AC%EC%9A%A9-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A1%9C]에서 확인할 수 있습니다.)
+(관련 경험은 [링크](https://velog.io/@josuncom/Emotion%EC%97%90%EC%84%9C-Tailwind%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98-2-%EC%9E%AC%EC%82%AC%EC%9A%A9-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A1%9C] 에서 확인할 수 있습니다.)
 
 - **CVA**: variant별 스타일을 한 곳에 정의해서 `variant="primary"` 같은 props만 넘기면 클래스가 자동으로 적용됩니다.
 - **clsx**: 조건부 클래스를 배열/객체 형태로 읽기 좋게 작성할 수 있습니다.
@@ -147,7 +147,7 @@ export function cn(...inputs: ClassValue[]) {
 ### 1. App Router 기반 RSC 활용
 
 홈 페이지(`app/page.tsx`)는 서버 컴포넌트입니다. URL의 `searchParams`를 서버에서 직접 읽어 초기 검색 상태를 결정하고, 실제 데이터 페칭과 인터랙션이 필요한 부분만 클라이언트 컴포넌트(`InfiniteBookResults`, `SearchBar`)로 분리했습니다.
-[Page Router에서 App Router로 마이그레이션 한 경험](https://velog.io/@josuncom/page-router%EC%97%90%EC%84%9C-app-router%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98%ED%95%98%EA%B8%B0-2)을 바탕으로 구현할 수 있었습니다.
+[Page Router에서 App Router로 마이그레이션 한 경험](https://velog.io/@josuncom/page-router%EC%97%90%EC%84%9C-app-router%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98%ED%95%98%EA%B8%B0-2) 을 바탕으로 구현할 수 있었습니다.
 ```tsx
 // app/page.tsx - 서버 컴포넌트
 export default async function Page({ searchParams }: PageProps) {
