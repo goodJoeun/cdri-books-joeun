@@ -35,9 +35,17 @@ export default function SearchBar({
     useSearchHistory();
 
   // URL이 바뀔 때 (뒤로가기, 히스토리 클릭 등) 입력값 동기화
+  // 상세검색 URL이면 전체 검색창을 비우고, 전체 검색 URL이면 상세 검색 상태를 비움
   useEffect(() => {
-    setQuery(defaultQuery);
-  }, [defaultQuery]);
+    if (defaultTarget) {
+      setQuery('');
+      setDetailQuery(defaultQuery);
+      setDetailTarget(defaultTarget as DetailTarget);
+    } else {
+      setQuery(defaultQuery);
+      setDetailQuery('');
+    }
+  }, [defaultQuery, defaultTarget]);
 
   const navigate = (term: string, target?: string) => {
     const params = new URLSearchParams({ q: term });
@@ -54,6 +62,8 @@ export default function SearchBar({
     setQuery(trimmed);
     setShowHistory(false);
     setShowDetailPopup(false);
+    setDetailQuery('');
+    setDetailTarget('title');
     navigate(trimmed);
   };
 

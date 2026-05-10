@@ -8,9 +8,8 @@ export async function GET(request: NextRequest) {
   }
 
   const page = request.nextUrl.searchParams.get('page') ?? '1';
-  const target = request.nextUrl.searchParams.get('target');
-  const kakaoParams: Record<string, string> = { query, size: '10', page };
-  if (target) kakaoParams.target = target;
+  const target = request.nextUrl.searchParams.get('target') ?? 'title';
+  const kakaoParams: Record<string, string> = { query, size: '10', page, target };
   const params = new URLSearchParams(kakaoParams);
   const res = await fetch(`https://dapi.kakao.com/v3/search/book?${params}`, {
     headers: {
