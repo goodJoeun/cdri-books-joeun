@@ -120,7 +120,7 @@ src/
 ### Tailwind CSS + clsx + CVA + tailwind-merge
 
 Tailwind만 쓰면 조건부 클래스가 많아질수록 className이 지저분해집니다. 이를 해결하기 위해 세 라이브러리를 조합했습니다.
-(관련 경험은 [링크](https://velog.io/@josuncom/Emotion%EC%97%90%EC%84%9C-Tailwind%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98-2-%EC%9E%AC%EC%82%AC%EC%9A%A9-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A1%9C] 에서 확인할 수 있습니다.)
+(관련 경험은 [링크](https://velog.io/@josuncom/Emotion%EC%97%90%EC%84%9C-Tailwind%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98-2-%EC%9E%AC%EC%82%AC%EC%9A%A9-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A1%9C) 에서 확인할 수 있습니다.)
 
 - **CVA**: variant별 스타일을 한 곳에 정의해서 `variant="primary"` 같은 props만 넘기면 클래스가 자동으로 적용됩니다.
 - **clsx**: 조건부 클래스를 배열/객체 형태로 읽기 좋게 작성할 수 있습니다.
