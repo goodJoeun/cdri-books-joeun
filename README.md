@@ -148,6 +148,7 @@ export function cn(...inputs: ClassValue[]) {
 
 홈 페이지(`app/page.tsx`)는 서버 컴포넌트입니다. URL의 `searchParams`를 서버에서 직접 읽어 초기 검색 상태를 결정하고, 실제 데이터 페칭과 인터랙션이 필요한 부분만 클라이언트 컴포넌트(`InfiniteBookResults`, `SearchBar`)로 분리했습니다.
 [Page Router에서 App Router로 마이그레이션 한 경험](https://velog.io/@josuncom/page-router%EC%97%90%EC%84%9C-app-router%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98%ED%95%98%EA%B8%B0-2) 을 바탕으로 구현할 수 있었습니다.
+
 ```tsx
 // app/page.tsx - 서버 컴포넌트
 export default async function Page({ searchParams }: PageProps) {
@@ -166,9 +167,32 @@ export default async function Page({ searchParams }: PageProps) {
 
 ---
 
-### 2. clsx + CVA + tailwind-merge로 컴포넌트 스타일 관리
+### 2. Tailwind 디자인 토큰 + CVA + cn()으로 스타일 시스템 구축
 
-`Button`, `Text`, `Input` 같은 UI 컴포넌트는 CVA로 variant를 정의해 props 기반으로 스타일이 결정됩니다. 컴포넌트를 사용하는 쪽에서 추가 클래스를 넘겨도 `cn()`이 충돌을 알아서 해결해줍니다.
+색상, 간격, 애니메이션 같은 디자인 값을 `globals.css`의 `@theme` 블록에 CSS 커스텀 프로퍼티로 정의해 Tailwind 토큰으로 사용했습니다. 매직 넘버가 컴포넌트 곳곳에 흩어지지 않고, 값을 바꿔야 할 때 이 파일 한 곳만 수정하면 됩니다.
+
+```css
+/* globals.css */
+@theme {
+  --color-palette-primary: #4880ee;
+  --color-text-primary: #353c49;
+  --color-text-secondary: #6d7582;
+
+  --spacing-card-row: 6.25rem; /* 100px */
+  --spacing-card-gap: 2.8125rem;
+  --spacing-header: 5rem; /* 80px */
+
+  --animate-expand-in: expandIn 0.25s ease-out;
+}
+```
+
+정의한 토큰은 Tailwind 유틸리티 클래스처럼 바로 쓸 수 있어서 컴포넌트에서 별도 import 없이 참조됩니다.
+
+```tsx
+<div className="h-card-row gap-card-gap bg-palette-primary text-text-primary" />
+```
+
+컴포넌트 레벨에서는 CVA로 variant별 클래스를 한 곳에 정의하고, `cn()`(clsx + tailwind-merge)으로 조건부 클래스 합성과 충돌 해결을 동시에 처리했습니다. 외부에서 className을 override해도 `twMerge`가 중복을 정리해줘서 예상치 못한 스타일 충돌이 없습니다.
 
 ```tsx
 const buttonVariants = cva('...기본 스타일...', {
